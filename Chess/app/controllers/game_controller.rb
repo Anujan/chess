@@ -36,6 +36,7 @@ class GameController < ApplicationController
       render json: { error: true, message: "You didn't provide sufficient move coordinates"}
     else
       player.moves.create(start_pos: params[:start_pos], end_pos: params[:end_pos])
+      player.game.switch_turn!
       render json: { game: player.game, your_player_id: player.id }
     end
   end

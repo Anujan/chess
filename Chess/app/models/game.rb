@@ -14,4 +14,9 @@ class Game < ActiveRecord::Base
     foreign_key: :black_id,
     primary_key: :id
   )
+
+  def switch_turn!
+    self.turn = self.turn == :white ? :black : :white
+    self.save!
+  end
 end
