@@ -63,6 +63,14 @@
   };
 })();
 
+function moves_includes(moves,dest){
+  for(var i = 0; i < moves.length; i++){
+    if(moves[i][0] == dest[0] && moves[i][1] == dest[1])
+      return true;
+  }
+  return false;
+}
+
 function mergeObj( obj1 , obj2 ){
   var obj3 = {};
   for (k in obj1)

@@ -212,13 +212,8 @@ var Board = Class.extend({
         if (piece && piece.color != color)
         {
           moves = piece.moves();
-          for(var i = 0; i < moves.length; i++)
-          {
-            if(moves[i][0] == k.pos[0] && moves[i][0] == k.pos[0])
-            {
-              return true;
-            }
-          }
+          if (moves_includes(moves,k.pos))
+            return true;
         }
       }
     }
@@ -323,8 +318,6 @@ var Board = Class.extend({
     return this.pieces[piece.pos[0]][piece.pos[1]];
   },
   move: function(start_pos, end_pos, checked_test) {
-    if(!start_pos || !end_pos)
-    console.log('what');
     var piece = this.pieces[start_pos[0]][start_pos[1]];
     var moves = piece.moves();
     if(this.off_the_grid(piece.pos))
@@ -333,7 +326,7 @@ var Board = Class.extend({
     if (checked_test == false) {
       moves = piece.valid_moves();
     }
-    if (moves.indexOf(end_pos) == -1) {
+    if (moves_includes(moves,end_pos)) {
       if (checked_test == false) {
         //this.castle_check(piece, end_pos);
       }
