@@ -20,10 +20,10 @@ class GameController < ApplicationController
           game.white.update_attributes(game_id: game.id, color: :white)
           render json: { game: game, your_player_id: player.id }
         else
-          render json: {status: "Waiting for another player still..."}
+          render json: {status: "Waiting"}
         end
       else
-        render json: { game: player.game, your_player_id: player.id }
+        render json: { status: "Start", game: player.game, your_player_id: player.id }
       end
     end
   end
@@ -37,7 +37,7 @@ class GameController < ApplicationController
     else
       player.moves.create(start_pos: params[:start_pos], end_pos: params[:end_pos])
       player.game.switch_turn!
-      render json: { game: player.game, your_player_id: player.id }
+      render json: { status: "Go", game: player.game, your_player_id: player.id }
     end
   end
 end
