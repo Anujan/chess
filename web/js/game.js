@@ -20,7 +20,7 @@ var Game = Class.extend({
   },
   change_state: function(data){
     stat = JSON.parse(data);
-    if (!stat.game_status == 'wait'){
+    if (!stat.game_status == 'Waiting'){
       if (!this.game_started)
       {
         this.player.color = stat.your_color;
@@ -63,7 +63,8 @@ var Game = Class.extend({
     this.board.move(player.startCoord, player.endCoord, false);
     this.ready = true;
     this.game_moves.push([player.startCoord,player.endCoord]);
-    $.post( "http://danujanchess.herokuapp.com/find", { startCoord: player.startCoord, endCoord: player.endCoord });
+    $.post( "http://danujanchess.herokuapp.com/move",
+    { start_pos: player.startCoord, end_pos: player.endCoord });
 
     this.turn = this.turn == "white" ? "black" : "white";
     this.board.render();
