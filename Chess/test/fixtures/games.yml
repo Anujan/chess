@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  black_id: 1
+  white_id: 1
+  turn: MyString
+  moves: MyString
+
+two:
+  black_id: 1
+  white_id: 1
+  turn: MyString
+  moves: MyString
