@@ -23,7 +23,12 @@ class GameController < ApplicationController
           render json: {status: "Waiting"}
         end
       else
-        render json: { status: "Start", game: player.game, your_player_id: player.id }
+        render json: {
+          status: "Start",
+          game: player.game,
+          your_player_id: player.id,
+          your_color: player.color
+        }
       end
     end
   end
