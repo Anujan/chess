@@ -1,5 +1,4 @@
 class GameController < ApplicationController
-
   def find
     player = nil
     if session[:token].nil?
@@ -30,6 +29,9 @@ class GameController < ApplicationController
           your_color: player.color
         }
       end
+    else
+      session[:token] = nil
+      render json: { status: "Waiting" }
     end
   end
 

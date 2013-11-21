@@ -2,52 +2,49 @@ var Game = Class.extend({
   init: function(options) {
     this.board = new Board();
 
-    //this.game_id = this.get_game_id();
     this.game_over = false;
     this.game_started = false;
 
     this.player = new Player(this);
     this.remote_player = new RemotePlayer(this);
-    //this.other_player = new RemotePlayer(this);
     this.ready = true;
 
     this.game_moves = [];
     this.started = false;
     this.get_game_status();
 
-    this.turn = 'white';
-    this.play();
+    this.turn = null;
+
+    this.timer = null;
   },
   change_state: function(data){
-    stat = JSON.parse(data);
-    if (!stat.game_status == 'Waiting'){
-      if (!this.game_started)
+    if (data.status != 'Waiting'){
+      if (!g.game_started)
       {
-        this.player.color = stat.your_color;
-
-        this.remote_player.color = this.player.color == "white" ? "black" : "white";
-
-        this.play();
-      }
-      else{
-
-        this.remote_player.moves(stat.moves);
-        this.turn = stat.turn;
-
+        g.player.color = data.your_color;
+        console.log('welcome to chess. your color is', this.player.color);
+        g.remote_player.color = g.player.color == "white" ? "black" : "white";
+        g.turn = data.game.turn;
+        g.play();
+      } else {
+        g.remote_player.moves(data.game[g.remote_player.color].moves);
+        g.turn = data.game.turn;
       }
     }
   },
   get_game_status: function(){
     var that = this;
-    $.get( "http://danujanchess.herokuapp.com/find", function( data ) {
-     console.log(data);
-     that.change_state(data);
+    $.get("/find", function( data ) {
+     g.change_state(data);
     });
-    if(!this.game_over)
-      set_timeout(this.get_game_status,4000);
+    if (!this.timer){
+      this.timer = setInterval(this.get_game_status,2000);
+    }
+    if (this.game_over){
+      clearInterval(this.timer);
+    }
   },
   play: function() {
-    console.log('welcome to chess. your color is', this.player.color,' its your turn');
     this.board.render();
   },
   move: function(player) {
@@ -63,7 +60,7 @@ var Game = Class.extend({
     this.board.move(player.startCoord, player.endCoord, false);
     this.ready = true;
     this.game_moves.push([player.startCoord,player.endCoord]);
-    $.post( "http://danujanchess.herokuapp.com/move",
+    $.post( "/move",
     { start_pos: player.startCoord, end_pos: player.endCoord });
 
     this.turn = this.turn == "white" ? "black" : "white";
@@ -86,7 +83,7 @@ var Player = Class.extend({
     this.color = 'none';
     var pickedPiece = false;
     this.startCoord = [];
-    this.endCoord = []
+    this.endCoord = [];
     $(".square").on('click', function(e) {
       var row = $(this).parent().index();
       var column = $(this).index();
@@ -101,20 +98,19 @@ var Player = Class.extend({
   }
 });
 
-
-
 var RemotePlayer = Class.extend({
   init: function(game,color){
     this.endCoord = [];
     this.startCoord = [];
     this.color = color;
+    this.game = game;
   },
   move: function(moves){
     if (this.game.game_moves.length < moves.length)
     {
       this.startCoord = moves[moves.length-1][0];
       this.endCoord = moves[moves.length-1][1];
-      game.move(self);
+      this.game.move(this);
     }
   }
 });
