@@ -1,5 +1,5 @@
 class Game < ActiveRecord::Base
-  attr_accessible :black_id, :moves, :turn, :white_id, :board
+  attr_accessible :black_id, :moves, :turn, :white_id, :moves
 
   belongs_to(
     :white,
@@ -7,6 +7,7 @@ class Game < ActiveRecord::Base
     foreign_key: :white_id,
     primary_key: :id
   )
+  serialize :moves
 
   belongs_to(
     :black,
@@ -17,6 +18,5 @@ class Game < ActiveRecord::Base
 
   def switch_turn!
     self.turn = self.turn == :white ? :black : :white
-    self.save!
   end
 end

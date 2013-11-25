@@ -29115,3 +29115,32 @@ Processing by GameController#find as */*
   [1m[35m (1.2ms)[0m  commit transaction
   [1m[36mGame Load (0.2ms)[0m  [1mSELECT "games".* FROM "games" WHERE "games"."id" = 1 LIMIT 1[0m
 Completed 200 OK in 5ms (Views: 0.5ms | ActiveRecord: 1.9ms)
+Connecting to database specified by database.yml
+Connecting to database specified by database.yml
+  [1m[36m (1.1ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+Migrating to CreateGames (20131120212636)
+Migrating to CreatePlayers (20131120212648)
+Migrating to AddMovesToGames (20131125194248)
+  [1m[35m (0.0ms)[0m  select sqlite_version(*)
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.5ms)[0m  ALTER TABLE "games" ADD "moves" text
+  [1m[36m (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ('20131125194248')[0m
+  [1m[35m (5.6ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+Connecting to database specified by database.yml
+  [1m[36m (1.5ms)[0m  [1mselect sqlite_version(*)[0m
+  [1m[35m (16.3ms)[0m  CREATE TABLE "games" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "black_id" integer NOT NULL, "white_id" integer NOT NULL, "turn" varchar(255) NOT NULL, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL, "board" text, "moves" text) 
+  [1m[36m (1.2ms)[0m  [1mCREATE INDEX "index_games_on_black_id" ON "games" ("black_id")[0m
+  [1m[35m (1.1ms)[0m  CREATE INDEX "index_games_on_white_id" ON "games" ("white_id")
+  [1m[36m (1.1ms)[0m  [1mCREATE TABLE "moves" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "player_id" integer, "start_pos" varchar(255), "end_pos" varchar(255), "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) [0m
+  [1m[35m (1.1ms)[0m  CREATE INDEX "index_moves_on_player_id" ON "moves" ("player_id")
+  [1m[36m (1.2ms)[0m  [1mCREATE TABLE "players" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "color" varchar(255), "game_id" integer, "session_token" varchar(255), "last_request" time, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) [0m
+  [1m[35m (1.5ms)[0m  CREATE INDEX "index_players_on_game_id" ON "players" ("game_id")
+  [1m[36m (1.1ms)[0m  [1mCREATE INDEX "index_players_on_session_token" ON "players" ("session_token")[0m
+  [1m[35m (1.1ms)[0m  CREATE TABLE "schema_migrations" ("version" varchar(255) NOT NULL) 
+  [1m[36m (1.1ms)[0m  [1mCREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")[0m
+  [1m[35m (0.1ms)[0m  SELECT version FROM "schema_migrations"
+  [1m[36m (1.2ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20131125194248')[0m
+  [1m[35m (1.0ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20131120212636')
+  [1m[36m (1.3ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20131120212648')[0m
+  [1m[35m (1.2ms)[0m  SELECT "schema_migrations"."version" FROM "schema_migrations" 

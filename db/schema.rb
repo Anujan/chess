@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131125180909) do
+ActiveRecord::Schema.define(:version => 20131125194248) do
 
   create_table "games", :force => true do |t|
     t.integer  "black_id",   :null => false
@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(:version => 20131125180909) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
     t.text     "board"
+    t.text     "moves"
   end
 
   add_index "games", ["black_id"], :name => "index_games_on_black_id"

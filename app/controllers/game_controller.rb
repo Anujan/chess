@@ -44,19 +44,31 @@ class GameController < ApplicationController
 
   def move
     player = Player.find_by_session_token(session[:token])
+
     if player.nil? || player.game_id.nil? || player.game.turn != player.color
       render json: {
         error: true,
         message: "It's not your turn or you're not apart of this game"
       }
-    elsif params[:board].nil?
+    elsif [params[:sx], params[:sy], params[:ex], params[:ey]].any {|p| p.nil?}
       render json: {
         error: true,
         message: "You didn't provide sufficient params"
       }
     else
-      player.game.board = params[:board]
+      move = [
+        [
+          params[:sx],
+          params[:sy]
+        ],
+        [
+          params[:ex],
+          params[:ey]
+        ]
+      ]
+      player.game.moves.push(move)
       player.game.switch_turn!
+      player.game.save!
       render json: {
         status: "Go",
         game: player.game,
