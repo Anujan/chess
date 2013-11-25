@@ -18,6 +18,14 @@ var Game = Class.extend({
 
     this.timer = null;
   },
+  apply_moves: function(moves) {
+    moves = moves.slice(this.game_moves.length-1);
+    for( var i = 0; i < moves.length; i++)
+    {
+      if(this.game_over  != true)
+        this.move(player_color, moves[i][0], moves[i][1] )
+    }
+  },
   change_state: function(data) {
     if (data.status != 'Waiting'){
       if (!this.game_started)
@@ -30,6 +38,7 @@ var Game = Class.extend({
         this.game_started = true;
       } else {
         this.turn = data.game.turn;
+        this.apply_moves(data.game.moves);
       }
     }
   },
@@ -45,22 +54,22 @@ var Game = Class.extend({
   play: function() {
     this.board.render();
   },
-  move: function(player) {
-    if(player.color != this.turn){
-      console.log('not your turn');
-      return;
-    }
+  move: function(player_color, start_coord, end_coord ) {
     console.log("ready", this.ready);
     if(!this.ready)
       return;
-    var rightColor = this.board.is_color(player.startCoord, this.turn);
+    var rightColor = this.board.is_color(start_coord, this.turn);
     this.ready = false;
 
-    this.board.move(player.startCoord, player.endCoord, false);
+    this.board.move(start_coord, end_coord, false);
     this.ready = true;
-    this.game_moves.push([player.startCoord,player.endCoord]);
+    this.game_moves.push([start_coord, end_coord]);
     $.post( "/move",
-    { start_pos: player.startCoord, end_pos: player.endCoord });
+    { sx: start_coord[0],
+      sy: start_coord[1],
+      ex: end_coord[0],
+      ey: end_coord[1]
+    });
 
     this.turn = this.turn == "white" ? "black" : "white";
     this.board.render();
@@ -72,7 +81,6 @@ var Game = Class.extend({
       console.log(this.turn, ' wins');
       $(".square").unbind('click');
     }
-
   }
 });
 
@@ -85,6 +93,10 @@ var Player = Class.extend({
     this.endCoord = [];
     this.moves = [];
     $(".square").on('click', function(e) {
+      if(self.color != game.turn){
+        console.log('not your turn');
+        return;
+      }
       var row = $(this).parent().index();
       var column = $(this).index();
       pickedPiece = !pickedPiece;
@@ -92,7 +104,8 @@ var Player = Class.extend({
         self.startCoord = [row, column];
       } else {
         self.endCoord = [row, column];
-        game.move(self);
+
+        game.move(self.color, self.startCoord, self.endCoord);
       }
     });
   }
