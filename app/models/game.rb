@@ -15,6 +15,18 @@ class Game < ActiveRecord::Base
     primary_key: :id
   )
 
+  def game_moves
+    moves = []
+    moves += self.black.moves if self.black
+    moves += self.white.moves if self.white
+    moves
+  end
+
+  def self.available?
+    games = Game.where(" black_id IS NULL")
+    games.first
+  end
+
   def switch_turn!
     self.turn = self.turn == :white ? :black : :white
     self.save!

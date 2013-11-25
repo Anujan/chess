@@ -5,6 +5,8 @@ var Game = Class.extend({
     this.game_over = false;
     this.game_started = false;
 
+    this.game_id = null;
+
     this.player = new Player(this);
     this.remote_player = new RemotePlayer(this);
     this.ready = true;
@@ -19,17 +21,21 @@ var Game = Class.extend({
   },
   change_state: function(data){
     if (data.status != 'Waiting'){
-      if (!g.game_started)
+      if (!this.game_started)
       {
-        g.player.color = data.your_color;
-        console.log('welcome to chess. your color is', this.player.color);
-        g.remote_player.color = g.player.color == "white" ? "black" : "white";
-        g.turn = data.game.turn;
-        g.play();
+        this.player.color = data.your_color;
+        console.log('welcome to chess. your color is', data.color);
+        this.player.color = data.color;
+        this.remote_player.color = this.player.color == "white" ? "black" : "white";
+        this.game_started = true;
+        this.play();
       } else {
-        g.remote_player.moves(data.game[g.remote_player.color].moves);
-        g.turn = data.game.turn;
       }
+
+      this.moves = data.moves;
+      this.turn = data.turn;
+      if ( this.turn == this.player.color)
+      console.log("It's ur turn");
     }
   },
   get_game_status: function(){

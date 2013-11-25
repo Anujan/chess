@@ -1,5 +1,5 @@
 class Player < ActiveRecord::Base
-  attr_accessible :color, :game_id
+  attr_accessible :color, :game_id, :token
 
   belongs_to(
     :game,
@@ -13,6 +13,6 @@ class Player < ActiveRecord::Base
   after_initialize :ensure_token
 
   def ensure_token
-    self.session_token ||= SecureRandom.urlsafe_base64
+    self.token ||= SecureRandom.urlsafe_base64
   end
 end

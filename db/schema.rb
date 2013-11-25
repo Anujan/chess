@@ -11,10 +11,10 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131120212744) do
+ActiveRecord::Schema.define(:version => 20131125001116) do
 
   create_table "games", :force => true do |t|
-    t.integer  "black_id",   :null => false
+    t.integer  "black_id"
     t.integer  "white_id",   :null => false
     t.string   "turn",       :null => false
     t.datetime "created_at", :null => false
@@ -41,6 +41,7 @@ ActiveRecord::Schema.define(:version => 20131120212744) do
     t.time     "last_request"
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
+    t.string   "token"
   end
 
   add_index "players", ["game_id"], :name => "index_players_on_game_id"
