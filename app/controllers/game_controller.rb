@@ -21,7 +21,8 @@ class GameController < ApplicationController
           render json: {
             status: "Start",
             game: game,
-            your_color: player.color
+            your_color: player.color,
+            chat: game.messages
           }
         else
           render json: {
@@ -32,7 +33,8 @@ class GameController < ApplicationController
         render json: {
           status: "Info",
           game: player.game,
-          your_color: player.color
+          your_color: player.color,
+          chat: player.game.messages
         }
       end
     else
@@ -74,7 +76,8 @@ class GameController < ApplicationController
         status: "Moved",
         game: player.game,
         your_player_id: player.id,
-        your_color: player.color
+        your_color: player.color,
+        chat: game.messages
       }
     end
   end
