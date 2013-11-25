@@ -36,7 +36,17 @@ var Game = Class.extend({
   },
   change_state: function(data) {
 
+
     if (data.status != 'Waiting'){
+      if ( data.chat ){
+        var chat;
+        new_chats = data.chat.slice($( "#chats p" ).length));
+        new_chats.forEach(function( e, i, arr) {
+          chat = j(document.createElement('p'));
+          chat.html(e.message);
+          $("#chats").append(chat);
+        });
+      }
       if (!this.game_started)
       {
         this.player.color = data.your_color;
@@ -66,6 +76,9 @@ var Game = Class.extend({
     this.board.render();
   },
   move: function(player_color, start_coord, end_coord ) {
+      // console.log("ready", this.ready);
+  //     if(!this.ready)
+  //       return;
     var rightColor = this.board.is_color(start_coord, this.turn);
     this.ready = false;
 
@@ -95,6 +108,11 @@ var Player = Class.extend({
     this.startCoord = [];
     this.endCoord = [];
     this.moves = [];
+    $("#chat").keypress( function(e){
+      if (e.charCode == 13)
+      self.send();
+    });
+    $("#send_chat").on('click', function(){self.send();});
     $(".square").on('click', function(e) {
       if(self.color != game.turn){
         $('#error_label').text('not your turn');
@@ -120,6 +138,21 @@ var Player = Class.extend({
         }
       }
     });
+  },
+  send: function() {
+    var text = $("#chat").val();
+    var self = this;
+    if (text)
+    {
+      $.post( "/chat",
+      {
+        chat:
+        {
+          color: self.color,
+          message: text
+        }
+      });
+    }
   }
 });
 

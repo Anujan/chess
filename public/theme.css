@@ -28,3 +28,7 @@
 .highlight {
   background-color: yellow;
 }
+
+#chats {
+  border: 3px solid;
+}
