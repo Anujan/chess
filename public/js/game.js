@@ -11,37 +11,37 @@ var Game = Class.extend({
 
     this.game_moves = [];
     this.started = false;
-    this.get_game_status();
+
+    //this.get_game_status(options.game_name);
 
     this.turn = null;
 
     this.timer = null;
   },
-  change_state: function(data){
+  change_state: function(data) {
     if (data.status != 'Waiting'){
-      if (!g.game_started)
+      if (!this.game_started)
       {
-        g.player.color = data.your_color;
+        this.player.color = data.your_color;
         console.log('welcome to chess. your color is', this.player.color);
-        g.remote_player.color = g.player.color == "white" ? "black" : "white";
-        g.turn = data.game.turn;
-        g.play();
+        this.remote_player.color = this.player.color == "white" ? "black" : "white";
+        this.turn = data.game.turn;
+        this.play();
+        this.game_started = true;
       } else {
-        g.remote_player.moves(data.game[g.remote_player.color].moves);
-        g.turn = data.game.turn;
+        console.log(data.game);
+        this.remote_player.moves = data.game[this.remote_player.color].moves;
+        this.turn = data.game.turn;
       }
     }
   },
-  get_game_status: function(){
-    var that = this;
+  get_game_status: function(name){
+    var that = eval(name);
     $.get("/find", function( data ) {
-     g.change_state(data);
+     that.change_state(data);
     });
-    if (!this.timer){
-      this.timer = setInterval(this.get_game_status,2000);
-    }
-    if (this.game_over){
-      clearInterval(this.timer);
+    if (!that.game_over){
+      setTimeout(function(){that.get_game_status(name);},2000);
     }
   },
   play: function() {
@@ -52,6 +52,7 @@ var Game = Class.extend({
       console.log('not your turn');
       return;
     }
+    console.log("ready", this.ready);
     if(!this.ready)
       return;
     var rightColor = this.board.is_color(player.startCoord, this.turn);
@@ -84,6 +85,7 @@ var Player = Class.extend({
     var pickedPiece = false;
     this.startCoord = [];
     this.endCoord = [];
+    this.moves = [];
     $(".square").on('click', function(e) {
       var row = $(this).parent().index();
       var column = $(this).index();
@@ -104,6 +106,7 @@ var RemotePlayer = Class.extend({
     this.startCoord = [];
     this.color = color;
     this.game = game;
+    this.moves = [];
   },
   move: function(moves){
     if (this.game.game_moves.length < moves.length)
@@ -115,3 +118,9 @@ var RemotePlayer = Class.extend({
   }
 });
 var g = new Game();
+$("#find").on("click", function(){
+  $.get("/find", function( data ) {
+   g.change_state(data);
+  });
+});
+//g.get_game_status("g");

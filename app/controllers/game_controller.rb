@@ -14,7 +14,7 @@ class GameController < ApplicationController
         time_before_expires = 30.seconds.ago
         players = Player.where("last_request > ? AND game_id IS NULL", time_before_expires)
         if players.count >= 2
-          game = Game.create(black_id: players.first.id, white_id: players.second.id, turn: :black)
+          game = Game.create(black_id: players.first.id, white_id: players.second.id, turn: :white)
           game.black.update_attributes(game_id: game.id, color: :black)
           game.white.update_attributes(game_id: game.id, color: :white)
           render json: { game: game, your_player_id: player.id }

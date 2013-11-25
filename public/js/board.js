@@ -196,6 +196,9 @@ var Board = Class.extend({
     var piece = this.pieces[pos[0]][pos[1]];
     if (!piece || piece.color != color)
     {
+      console.log(piece);
+      console.log(color);
+      console.log(piece.color);
       throw 'That is not your piece';
       return false;
     }
