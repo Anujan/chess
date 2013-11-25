@@ -19,6 +19,7 @@ class GameController < ApplicationController
           game.black.update_attributes(game_id: game.id, color: :black)
           game.white.update_attributes(game_id: game.id, color: :white)
           render json: {
+            status: "Start".
             game: game,
             your_color: player.color
           }
@@ -29,7 +30,7 @@ class GameController < ApplicationController
         end
       else
         render json: {
-          status: "Start",
+          status: "Info",
           game: player.game,
           your_color: player.color
         }
@@ -70,7 +71,7 @@ class GameController < ApplicationController
       player.game.switch_turn!
       player.game.save!
       render json: {
-        status: "Go",
+        status: "Moved",
         game: player.game,
         your_player_id: player.id,
         your_color: player.color
