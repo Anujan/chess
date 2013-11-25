@@ -1,5 +1,5 @@
 class Game < ActiveRecord::Base
-  attr_accessible :black_id, :moves, :turn, :white_id
+  attr_accessible :black_id, :moves, :turn, :white_id, :board
 
   belongs_to(
     :white,

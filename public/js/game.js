@@ -29,8 +29,6 @@ var Game = Class.extend({
         this.play();
         this.game_started = true;
       } else {
-        console.log(data.game);
-        this.remote_player.moves = data.game[this.remote_player.color].moves;
         this.turn = data.game.turn;
       }
     }

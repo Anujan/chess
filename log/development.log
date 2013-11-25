@@ -28991,3 +28991,127 @@ Processing by GameController#find as HTML
   [1m[35m (1.7ms)[0m  commit transaction
   [1m[36mGame Load (0.1ms)[0m  [1mSELECT "games".* FROM "games" WHERE "games"."id" = 1 LIMIT 1[0m
 Completed 200 OK in 60ms (Views: 0.7ms | ActiveRecord: 5.5ms)
+Connecting to database specified by database.yml
+Connecting to database specified by database.yml
+Connecting to database specified by database.yml
+Connecting to database specified by database.yml
+Connecting to database specified by database.yml
+Connecting to database specified by database.yml
+  [1m[36m (1.1ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+Migrating to CreateGames (20131120212636)
+Migrating to CreatePlayers (20131120212648)
+Migrating to AddBoardToGame (20131125180909)
+  [1m[35m (0.0ms)[0m  select sqlite_version(*)
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35m (1.0ms)[0m  ALTER TABLE "games" ADD "board" text
+  [1m[36m (0.1ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES ('20131125180909')[0m
+  [1m[35m (1.2ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+Connecting to database specified by database.yml
+  [1m[36m (1.7ms)[0m  [1mselect sqlite_version(*)[0m
+  [1m[35m (14.7ms)[0m  CREATE TABLE "games" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "black_id" integer NOT NULL, "white_id" integer NOT NULL, "turn" varchar(255) NOT NULL, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL, "board" text) 
+  [1m[36m (61.1ms)[0m  [1mCREATE INDEX "index_games_on_black_id" ON "games" ("black_id")[0m
+  [1m[35m (65.4ms)[0m  CREATE INDEX "index_games_on_white_id" ON "games" ("white_id")
+  [1m[36m (1.5ms)[0m  [1mCREATE TABLE "moves" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "player_id" integer, "start_pos" varchar(255), "end_pos" varchar(255), "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) [0m
+  [1m[35m (1.5ms)[0m  CREATE INDEX "index_moves_on_player_id" ON "moves" ("player_id")
+  [1m[36m (1.8ms)[0m  [1mCREATE TABLE "players" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "color" varchar(255), "game_id" integer, "session_token" varchar(255), "last_request" time, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) [0m
+  [1m[35m (1.3ms)[0m  CREATE INDEX "index_players_on_game_id" ON "players" ("game_id")
+  [1m[36m (1.1ms)[0m  [1mCREATE INDEX "index_players_on_session_token" ON "players" ("session_token")[0m
+  [1m[35m (1.0ms)[0m  CREATE TABLE "schema_migrations" ("version" varchar(255) NOT NULL) 
+  [1m[36m (1.4ms)[0m  [1mCREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")[0m
+  [1m[35m (0.1ms)[0m  SELECT version FROM "schema_migrations"
+  [1m[36m (1.1ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20131125180909')[0m
+  [1m[35m (1.0ms)[0m  INSERT INTO "schema_migrations" (version) VALUES ('20131120212636')
+  [1m[36m (1.0ms)[0m  [1mINSERT INTO "schema_migrations" (version) VALUES ('20131120212648')[0m
+  [1m[35m (1.2ms)[0m  SELECT "schema_migrations"."version" FROM "schema_migrations" 
+Connecting to database specified by database.yml
+
+
+Started GET "/find" for 127.0.0.1 at 2013-11-25 13:12:08 -0500
+Processing by GameController#find as HTML
+  [1m[36mPlayer Load (0.2ms)[0m  [1mSELECT "players".* FROM "players" WHERE "players"."session_token" = 'w3rbPHrwlt9gDoFVUxpteQ' LIMIT 1[0m
+Completed 200 OK in 26ms (Views: 0.2ms | ActiveRecord: 2.0ms)
+
+
+Started GET "/find" for 127.0.0.1 at 2013-11-25 13:12:09 -0500
+Processing by GameController#find as HTML
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (5.4ms)[0m  [1mINSERT INTO "players" ("color", "created_at", "game_id", "last_request", "session_token", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["color", nil], ["created_at", Mon, 25 Nov 2013 18:12:09 UTC +00:00], ["game_id", nil], ["last_request", nil], ["session_token", "fby994S0JUgQ43xI-MhEDQ"], ["updated_at", Mon, 25 Nov 2013 18:12:09 UTC +00:00]]
+  [1m[35m (2.0ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.3ms)[0m  UPDATE "players" SET "last_request" = '2013-11-25 18:12:09.637421', "updated_at" = '2013-11-25 18:12:09.638101' WHERE "players"."id" = 1
+  [1m[36m (1.1ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM "players" WHERE (last_request > '2013-11-25 18:11:39.640814' AND game_id IS NULL)
+Completed 200 OK in 20ms (Views: 0.2ms | ActiveRecord: 9.1ms)
+
+
+Started GET "/find" for 127.0.0.1 at 2013-11-25 13:12:11 -0500
+Processing by GameController#find as */*
+  [1m[36mPlayer Load (0.3ms)[0m  [1mSELECT "players".* FROM "players" WHERE "players"."session_token" = 'TH0McF0GGDhpvTDNYLTdPg' LIMIT 1[0m
+Completed 200 OK in 2ms (Views: 0.2ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/find" for 127.0.0.1 at 2013-11-25 13:12:12 -0500
+Processing by GameController#find as */*
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "players" ("color", "created_at", "game_id", "last_request", "session_token", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["color", nil], ["created_at", Mon, 25 Nov 2013 18:12:12 UTC +00:00], ["game_id", nil], ["last_request", nil], ["session_token", "nyFQEgTF4fut528SpbVZsQ"], ["updated_at", Mon, 25 Nov 2013 18:12:12 UTC +00:00]]
+  [1m[35m (5.1ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.4ms)[0m  UPDATE "players" SET "last_request" = '2013-11-25 18:12:12.221272', "updated_at" = '2013-11-25 18:12:12.221755' WHERE "players"."id" = 2
+  [1m[36m (1.1ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  SELECT COUNT(*) FROM "players" WHERE (last_request > '2013-11-25 18:11:42.224262' AND game_id IS NULL)
+  [1m[36mPlayer Load (0.1ms)[0m  [1mSELECT "players".* FROM "players" WHERE (last_request > '2013-11-25 18:11:42.224262' AND game_id IS NULL) LIMIT 1[0m
+  [1m[35mPlayer Load (0.1ms)[0m  SELECT "players".* FROM "players" WHERE (last_request > '2013-11-25 18:11:42.224262' AND game_id IS NULL)
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "games" ("black_id", "board", "created_at", "turn", "updated_at", "white_id") VALUES (?, ?, ?, ?, ?, ?)  [["black_id", 1], ["board", ""], ["created_at", Mon, 25 Nov 2013 18:12:12 UTC +00:00], ["turn", :white], ["updated_at", Mon, 25 Nov 2013 18:12:12 UTC +00:00], ["white_id", 2]]
+  [1m[36m (1.2ms)[0m  [1mcommit transaction[0m
+  [1m[35mPlayer Load (0.2ms)[0m  SELECT "players".* FROM "players" WHERE "players"."id" = 1 LIMIT 1
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.3ms)[0m  UPDATE "players" SET "game_id" = 1, "color" = 'black', "updated_at" = '2013-11-25 18:12:12.247066' WHERE "players"."id" = 1
+  [1m[36m (1.1ms)[0m  [1mcommit transaction[0m
+  [1m[35mPlayer Load (0.1ms)[0m  SELECT "players".* FROM "players" WHERE "players"."id" = 2 LIMIT 1
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.2ms)[0m  UPDATE "players" SET "game_id" = 1, "color" = 'white', "updated_at" = '2013-11-25 18:12:12.251479' WHERE "players"."id" = 2
+  [1m[36m (1.4ms)[0m  [1mcommit transaction[0m
+Completed 200 OK in 41ms (Views: 0.5ms | ActiveRecord: 13.0ms)
+
+
+Started GET "/find" for 127.0.0.1 at 2013-11-25 13:12:14 -0500
+Processing by GameController#find as HTML
+  [1m[35mPlayer Load (0.2ms)[0m  SELECT "players".* FROM "players" WHERE "players"."session_token" = 'fby994S0JUgQ43xI-MhEDQ' LIMIT 1
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.2ms)[0m  UPDATE "players" SET "last_request" = '2013-11-25 18:12:14.119641', "updated_at" = '2013-11-25 18:12:14.120093' WHERE "players"."id" = 1
+  [1m[36m (1.2ms)[0m  [1mcommit transaction[0m
+  [1m[35mGame Load (0.2ms)[0m  SELECT "games".* FROM "games" WHERE "games"."id" = 1 LIMIT 1
+Completed 200 OK in 6ms (Views: 0.7ms | ActiveRecord: 1.8ms)
+Connecting to database specified by database.yml
+
+
+Started GET "/find" for 127.0.0.1 at 2013-11-25 13:14:51 -0500
+Processing by GameController#find as HTML
+  [1m[36mPlayer Load (0.2ms)[0m  [1mSELECT "players".* FROM "players" WHERE "players"."session_token" = 'fby994S0JUgQ43xI-MhEDQ' LIMIT 1[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (1.3ms)[0m  [1mUPDATE "players" SET "last_request" = '2013-11-25 18:14:51.854844', "updated_at" = '2013-11-25 18:14:51.856124' WHERE "players"."id" = 1[0m
+  [1m[35m (1.5ms)[0m  commit transaction
+  [1m[36mGame Load (0.1ms)[0m  [1mSELECT "games".* FROM "games" WHERE "games"."id" = 1 LIMIT 1[0m
+Completed 200 OK in 57ms (Views: 0.6ms | ActiveRecord: 5.2ms)
+
+
+Started GET "/find" for 127.0.0.1 at 2013-11-25 13:14:56 -0500
+Processing by GameController#find as */*
+  [1m[35mPlayer Load (0.2ms)[0m  SELECT "players".* FROM "players" WHERE "players"."session_token" = 'nyFQEgTF4fut528SpbVZsQ' LIMIT 1
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.3ms)[0m  UPDATE "players" SET "last_request" = '2013-11-25 18:14:56.765052', "updated_at" = '2013-11-25 18:14:56.765600' WHERE "players"."id" = 2
+  [1m[36m (5.4ms)[0m  [1mcommit transaction[0m
+  [1m[35mGame Load (0.2ms)[0m  SELECT "games".* FROM "games" WHERE "games"."id" = 1 LIMIT 1
+Completed 200 OK in 10ms (Views: 0.5ms | ActiveRecord: 6.0ms)
+
+
+Started GET "/find" for 127.0.0.1 at 2013-11-25 13:14:56 -0500
+Processing by GameController#find as */*
+  [1m[36mPlayer Load (0.2ms)[0m  [1mSELECT "players".* FROM "players" WHERE "players"."session_token" = 'nyFQEgTF4fut528SpbVZsQ' LIMIT 1[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36m (0.3ms)[0m  [1mUPDATE "players" SET "last_request" = '2013-11-25 18:14:56.889744', "updated_at" = '2013-11-25 18:14:56.890219' WHERE "players"."id" = 2[0m
+  [1m[35m (1.2ms)[0m  commit transaction
+  [1m[36mGame Load (0.2ms)[0m  [1mSELECT "games".* FROM "games" WHERE "games"."id" = 1 LIMIT 1[0m
+Completed 200 OK in 5ms (Views: 0.5ms | ActiveRecord: 1.9ms)

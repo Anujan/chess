@@ -8,8 +8,6 @@ class Player < ActiveRecord::Base
     primary_key: :id
   )
 
-  has_many :moves
-
   after_initialize :ensure_token
 
   def ensure_token
