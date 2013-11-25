@@ -40,10 +40,10 @@ var Game = Class.extend({
     if (data.status != 'Waiting'){
       if ( data.chat ){
         var chat;
-        new_chats = data.chat.slice($( "#chats p" ).length));
+        new_chats = data.chat.slice($( "#chats p" ).length);
         new_chats.forEach(function( e, i, arr) {
-          chat = j(document.createElement('p'));
-          chat.html(e.message);
+          chat = $(document.createElement('p'));
+          chat.html(e.color + ": " + e.message);
           $("#chats").append(chat);
         });
       }
