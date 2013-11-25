@@ -111,7 +111,7 @@ var Pawn = SteppingPiece.extend({
       }
     }
     var steps = [[1, 0]];
-    if ((this.color == "white" && this.pos[0] == 6) || (this.color == "black" && this.pos[1] == 1)) {
+    if ((this.color == "white" && this.pos[0] == 6) || (this.color == "black" && this.pos[0] == 1)) {
       steps.push([2,0]);
     }
     for (var i in steps) {

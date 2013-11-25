@@ -19,27 +19,37 @@ var Game = Class.extend({
     this.timer = null;
   },
   apply_moves: function(moves) {
-    moves = moves.slice(this.game_moves.length-1);
+    moves = moves.slice(this.game_moves.length);
+
     for( var i = 0; i < moves.length; i++)
     {
-      if(this.game_over  != true)
-        this.move(player_color, moves[i][0], moves[i][1] )
+      move_items = [];
+      moves[i].forEach(function(e, i, arr) {
+        move_items.push(e.map(function(el) {
+          return parseInt(el, 10);
+        }));
+      });
+
+      if(this.game_over != true)
+        this.move(this.turn, move_items[0], move_items[1]);
     }
   },
   change_state: function(data) {
+
     if (data.status != 'Waiting'){
       if (!this.game_started)
       {
         this.player.color = data.your_color;
-        console.log('welcome to chess. your color is', this.player.color);
+        $('#error_label').text('welcome to chess. your color is', this.player.color);
         this.remote_player.color = this.player.color == "white" ? "black" : "white";
-        this.turn = data.game.turn;
+        this.turn = 'white';
         this.play();
         this.game_started = true;
       } else {
-        this.turn = data.game.turn;
         this.apply_moves(data.game.moves);
       }
+    } else {
+      $('#turn_label').html('Waiting for a player...');
     }
   },
   get_game_status: function(name){
@@ -52,35 +62,31 @@ var Game = Class.extend({
     }
   },
   play: function() {
+    $('#turn_label').html(g.turn + "'s turn!");
     this.board.render();
   },
   move: function(player_color, start_coord, end_coord ) {
-    console.log("ready", this.ready);
-    if(!this.ready)
-      return;
+      // console.log("ready", this.ready);
+  //     if(!this.ready)
+  //       return;
     var rightColor = this.board.is_color(start_coord, this.turn);
     this.ready = false;
 
     this.board.move(start_coord, end_coord, false);
     this.ready = true;
     this.game_moves.push([start_coord, end_coord]);
-    $.post( "/move",
-    { sx: start_coord[0],
-      sy: start_coord[1],
-      ex: end_coord[0],
-      ey: end_coord[1]
-    });
 
     this.turn = this.turn == "white" ? "black" : "white";
+    $('#turn_label').html(g.turn + "'s turn!");
     this.board.render();
     if(this.board.checkmate(this.turn))
     {
-      console.log('game over');
       this.game_over  = true;
       this.turn = this.turn == "white" ? "black" : "white";
-      console.log(this.turn, ' wins');
+      alert("GAME OVER!" + this.turn + " WINS!");
       $(".square").unbind('click');
     }
+    return true;
   }
 });
 
@@ -94,7 +100,7 @@ var Player = Class.extend({
     this.moves = [];
     $(".square").on('click', function(e) {
       if(self.color != game.turn){
-        console.log('not your turn');
+        $('#error_label').text('not your turn');
         return;
       }
       var row = $(this).parent().index();
@@ -102,10 +108,19 @@ var Player = Class.extend({
       pickedPiece = !pickedPiece;
       if (pickedPiece) {
         self.startCoord = [row, column];
+        $(this).addClass('highlight');
       } else {
         self.endCoord = [row, column];
-
-        game.move(self.color, self.startCoord, self.endCoord);
+        $('.square').removeClass('highlight');
+        if (game.move(self.color, self.startCoord, self.endCoord))
+        {
+          $.post( "/move",
+          { sx: self.startCoord[0],
+            sy: self.startCoord[1],
+            ex: self.endCoord[0],
+            ey: self.endCoord[1]
+          });
+        }
       }
     });
   }
@@ -129,9 +144,4 @@ var RemotePlayer = Class.extend({
   }
 });
 var g = new Game();
-$("#find").on("click", function(){
-  $.get("/find", function( data ) {
-   g.change_state(data);
-  });
-});
-//g.get_game_status("g");
+g.get_game_status("g");

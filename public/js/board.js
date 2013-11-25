@@ -68,7 +68,7 @@ var Board = Class.extend({
 
       rook = mergeObj(rook,{ color : color, pos : p});
 
-      this.pieces[p[0]][p[1]] = new Rook(rook);
+      this.pieces[p[0]][p[1]] = new Rook(rook, 1);
     }
     return true;
   },
@@ -196,9 +196,6 @@ var Board = Class.extend({
     var piece = this.pieces[pos[0]][pos[1]];
     if (!piece || piece.color != color)
     {
-      console.log(piece);
-      console.log(color);
-      console.log(piece.color);
       throw 'That is not your piece';
       return false;
     }
@@ -347,6 +344,7 @@ var Board = Class.extend({
       //piece = this.queened_check(piece);
       this.last_moved = piece;
     } else {
+      $("#error_label").html("That piece can't move there");
       throw "Invalid Destination";
     }
     return true;

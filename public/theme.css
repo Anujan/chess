@@ -24,3 +24,7 @@
   min-height:12.5%;
   width: 100%;
 }
+
+.highlight {
+  background-color: yellow;
+}
