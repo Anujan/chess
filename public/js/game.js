@@ -66,9 +66,6 @@ var Game = Class.extend({
     this.board.render();
   },
   move: function(player_color, start_coord, end_coord ) {
-      // console.log("ready", this.ready);
-  //     if(!this.ready)
-  //       return;
     var rightColor = this.board.is_color(start_coord, this.turn);
     this.ready = false;
 

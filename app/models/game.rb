@@ -16,6 +16,8 @@ class Game < ActiveRecord::Base
     primary_key: :id
   )
 
+  has_many :messages
+
   def switch_turn!
     self.turn = self.turn == :white ? :black : :white
   end

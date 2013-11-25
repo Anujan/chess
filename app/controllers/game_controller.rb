@@ -78,4 +78,13 @@ class GameController < ApplicationController
       }
     end
   end
+
+  def chat
+    player = Player.find_by_session_token(session[:token])
+    if player && player.game
+      player.game.messages.create(params[:chat])
+    else
+      render json: {error: true, status: "You're not in a game"}
+    end
+  end
 end
