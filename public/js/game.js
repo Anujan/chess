@@ -40,7 +40,7 @@ var Game = Class.extend({
       if (!this.game_started)
       {
         this.player.color = data.your_color;
-        $('#error_label').text('welcome to chess. your color is', this.player.color);
+        $('#error_label').text('welcome to chess. your color is ' + this.player.color);
         this.remote_player.color = this.player.color == "white" ? "black" : "white";
         this.turn = 'white';
         this.play();
@@ -58,7 +58,7 @@ var Game = Class.extend({
      that.change_state(data);
     });
     if (!that.game_over){
-      setTimeout(function(){that.get_game_status(name);},2000);
+      setTimeout(function(){that.get_game_status(name);},750);
     }
   },
   play: function() {

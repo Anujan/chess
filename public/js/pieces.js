@@ -14,7 +14,7 @@ var Piece = Class.extend({
     return valid_moves;
   },
   move_into_check : function(pos) {
-    var new_board = new Board(this.board.dup());//new Board( J
+    var new_board = new Board(this.board.dup());
     new_board.move(this.pos, pos, true);
     return new_board.checked(this.color);
   }
