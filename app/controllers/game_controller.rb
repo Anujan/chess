@@ -1,19 +1,12 @@
 class GameController < ApplicationController
   def find
-    player = nil
-    if session[:token].nil?
-      player = Player.create
-      session[:token] = player.session_token
-    end
-    unless player
-      player = Player.find_by_session_token(session[:token])
-    end
+    player = Player.find_by_session_token(session[:token])
     unless player
       player = Player.create
       session[:token] = player.session_token
     end
-    unless player.game_id
 
+    unless player.game_id
       game = Game.where('black_id IS NULL').last
       if game
         player.game = game
