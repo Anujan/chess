@@ -26707,3 +26707,939 @@ Processing by GameController#move as */*
   [1m[35mMessage Load (0.1ms)[0m  SELECT "messages".* FROM "messages" WHERE "messages"."game_id" = 17
 Completed 200 OK in 80ms (ActiveRecord: 5.6ms)
 Connecting to database specified by database.yml
+Connecting to database specified by database.yml
+Connecting to database specified by database.yml
+  [1m[36m (12.8ms)[0m  [1mSELECT "schema_migrations"."version" FROM "schema_migrations" [0m
+Migrating to CreateGames (20131120212636)
+Migrating to CreatePlayers (20131120212648)
+Migrating to AddMovesToGames (20131125194248)
+Migrating to CreateMessages (20131125215840)
+Migrating to BlackIdDefaultNull (20131230191627)
+Migrating to AllowWhiteNil (20131230213427)
+  [1m[35m (0.1ms)[0m  select sqlite_version(*)
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.5ms)[0m  CREATE TEMPORARY TABLE "altered_games" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "black_id" integer, "white_id" integer NOT NULL, "turn" varchar(255) NOT NULL, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL, "board" text, "moves" text) 
+  [1m[36m (0.2ms)[0m  [1mCREATE INDEX "temp_index_altered_games_on_white_id" ON "altered_games" ("white_id")[0m
+  [1m[35m (0.1ms)[0m  CREATE INDEX "temp_index_altered_games_on_black_id" ON "altered_games" ("black_id")
+  [1m[36m (0.1ms)[0m  [1mSELECT * FROM "games"[0m
+  [1m[35m (0.2ms)[0m  INSERT INTO "altered_games" ("id","black_id","white_id","turn","created_at","updated_at","board","moves") VALUES (24, 43, 42, 'white', '2013-12-30 21:27:44.410595', '2013-12-30 21:28:00.914038', NULL, '--- []
+')
+  [1m[36m (0.4ms)[0m  [1mDROP TABLE "games"[0m
+  [1m[35m (0.1ms)[0m  CREATE TABLE "games" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "black_id" integer, "white_id" integer, "turn" varchar(255) NOT NULL, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL, "board" text, "moves" text) 
+  [1m[36m (0.1ms)[0m  [1mCREATE INDEX "index_games_on_black_id" ON "games" ("black_id")[0m
+  [1m[35m (0.1ms)[0m  CREATE INDEX "index_games_on_white_id" ON "games" ("white_id")
+  [1m[36m (0.0ms)[0m  [1mSELECT * FROM "altered_games"[0m
+  [1m[35m (0.1ms)[0m  INSERT INTO "games" ("id","black_id","white_id","turn","created_at","updated_at","board","moves") VALUES (24, 43, 42, 'white', '2013-12-30 21:27:44.410595', '2013-12-30 21:28:00.914038', NULL, '--- []
+')
+  [1m[36m (0.3ms)[0m  [1mDROP TABLE "altered_games"[0m
+  [1m[35m (0.1ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES ('20131230213427')
+  [1m[36m (1.6ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  SELECT "schema_migrations"."version" FROM "schema_migrations" 
+Connecting to database specified by database.yml
+
+
+Started GET "/find" for 127.0.0.1 at 2013-12-30 16:35:06 -0500
+Processing by GameController#find as */*
+  [1m[36mPlayer Load (0.2ms)[0m  [1mSELECT "players".* FROM "players" WHERE "players"."session_token" = 'blppYfIG8pGYRIoPxXMNNQ' LIMIT 1[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (15.9ms)[0m  [1mINSERT INTO "players" ("color", "created_at", "game_id", "last_request", "session_token", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["color", nil], ["created_at", Mon, 30 Dec 2013 21:35:06 UTC +00:00], ["game_id", nil], ["last_request", 2013-12-30 16:35:06 -0500], ["session_token", "28QSBLPQmxr9WbgM4X6PZQ"], ["updated_at", Mon, 30 Dec 2013 21:35:06 UTC +00:00]]
+  [1m[35m (1.3ms)[0m  commit transaction
+  [1m[36mGame Load (0.1ms)[0m  [1mSELECT "games".* FROM "games" WHERE (white_id IS NULL) ORDER BY "games"."id" DESC LIMIT 1[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.6ms)[0m  [1mINSERT INTO "games" ("black_id", "board", "created_at", "moves", "turn", "updated_at", "white_id") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["black_id", 44], ["board", nil], ["created_at", Mon, 30 Dec 2013 21:35:06 UTC +00:00], ["moves", "--- []\n"], ["turn", :white], ["updated_at", Mon, 30 Dec 2013 21:35:06 UTC +00:00], ["white_id", nil]]
+  [1m[35m (1.3ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.3ms)[0m  UPDATE "players" SET "game_id" = 25, "updated_at" = '2013-12-30 21:35:06.911235' WHERE "players"."id" = 44
+  [1m[36m (1.1ms)[0m  [1mcommit transaction[0m
+Completed 200 OK in 263ms (ActiveRecord: 23.2ms)
+
+
+Started GET "/find" for 127.0.0.1 at 2013-12-30 16:35:12 -0500
+Processing by GameController#find as */*
+  [1m[35mPlayer Load (0.2ms)[0m  SELECT "players".* FROM "players" WHERE "players"."session_token" = 'sXB87LOeRK2kY5ZEiE3LfA' LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.8ms)[0m  INSERT INTO "players" ("color", "created_at", "game_id", "last_request", "session_token", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["color", nil], ["created_at", Mon, 30 Dec 2013 21:35:12 UTC +00:00], ["game_id", nil], ["last_request", 2013-12-30 16:35:12 -0500], ["session_token", "xAiYRsv_T9qfVWuk1Luc9g"], ["updated_at", Mon, 30 Dec 2013 21:35:12 UTC +00:00]]
+  [1m[36m (1.6ms)[0m  [1mcommit transaction[0m
+  [1m[35mGame Load (0.2ms)[0m  SELECT "games".* FROM "games" WHERE (white_id IS NULL) ORDER BY "games"."id" DESC LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.5ms)[0m  UPDATE "players" SET "game_id" = 25, "updated_at" = '2013-12-30 21:35:12.138190' WHERE "players"."id" = 45
+  [1m[36m (1.3ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36m (0.5ms)[0m  [1mUPDATE "games" SET "black_id" = 45, "updated_at" = '2013-12-30 21:35:12.143423', "moves" = '--- []
+' WHERE "games"."id" = 25[0m
+  [1m[35m (1.3ms)[0m  commit transaction
+Completed 200 OK in 109ms (ActiveRecord: 6.7ms)
+
+
+Started GET "/find" for 127.0.0.1 at 2013-12-30 16:35:27 -0500
+Processing by GameController#find as */*
+  [1m[36mPlayer Load (0.3ms)[0m  [1mSELECT "players".* FROM "players" WHERE "players"."session_token" = 'xAiYRsv_T9qfVWuk1Luc9g' LIMIT 1[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.7ms)[0m  [1mINSERT INTO "players" ("color", "created_at", "game_id", "last_request", "session_token", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["color", nil], ["created_at", Mon, 30 Dec 2013 21:35:27 UTC +00:00], ["game_id", nil], ["last_request", 2013-12-30 16:35:27 -0500], ["session_token", "kegYlZx_-7dw-kgB-x2KYw"], ["updated_at", Mon, 30 Dec 2013 21:35:27 UTC +00:00]]
+  [1m[35m (1.3ms)[0m  commit transaction
+  [1m[36mGame Load (0.2ms)[0m  [1mSELECT "games".* FROM "games" WHERE (white_id IS NULL) ORDER BY "games"."id" DESC LIMIT 1[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "games" ("black_id", "board", "created_at", "moves", "turn", "updated_at", "white_id") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["black_id", 46], ["board", nil], ["created_at", Mon, 30 Dec 2013 21:35:27 UTC +00:00], ["moves", "--- []\n"], ["turn", :white], ["updated_at", Mon, 30 Dec 2013 21:35:27 UTC +00:00], ["white_id", nil]]
+  [1m[35m (1.3ms)[0m  commit transaction
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.3ms)[0m  UPDATE "players" SET "game_id" = 26, "updated_at" = '2013-12-30 21:35:27.771304' WHERE "players"."id" = 46
+  [1m[36m (1.1ms)[0m  [1mcommit transaction[0m
+Completed 200 OK in 82ms (ActiveRecord: 6.0ms)
+
+
+Started GET "/find" for 127.0.0.1 at 2013-12-30 16:36:51 -0500
+Processing by GameController#find as */*
+  [1m[35mPlayer Load (0.2ms)[0m  SELECT "players".* FROM "players" WHERE "players"."session_token" = 'kegYlZx_-7dw-kgB-x2KYw' LIMIT 1
+  [1m[36mGame Load (0.2ms)[0m  [1mSELECT "games".* FROM "games" WHERE "games"."id" = 26 LIMIT 1[0m
+  [1m[35mMessage Load (0.1ms)[0m  SELECT "messages".* FROM "messages" WHERE "messages"."game_id" = 26
+Completed 200 OK in 1571ms (ActiveRecord: 0.7ms)
+
+
+Started GET "/find" for 127.0.0.1 at 2013-12-30 16:37:02 -0500
+Processing by GameController#find as */*
+  [1m[36mPlayer Load (0.3ms)[0m  [1mSELECT "players".* FROM "players" WHERE "players"."session_token" = 'kegYlZx_-7dw-kgB-x2KYw' LIMIT 1[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.7ms)[0m  [1mINSERT INTO "players" ("color", "created_at", "game_id", "last_request", "session_token", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["color", nil], ["created_at", Mon, 30 Dec 2013 21:37:02 UTC +00:00], ["game_id", nil], ["last_request", 2013-12-30 16:37:02 -0500], ["session_token", "bHkwez4Ra7kOcsKkWV0O-w"], ["updated_at", Mon, 30 Dec 2013 21:37:02 UTC +00:00]]
+  [1m[35m (1.2ms)[0m  commit transaction
+  [1m[36mGame Load (0.2ms)[0m  [1mSELECT "games".* FROM "games" WHERE (white_id IS NULL) ORDER BY "games"."id" DESC LIMIT 1[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (1.3ms)[0m  [1mINSERT INTO "games" ("black_id", "board", "created_at", "moves", "turn", "updated_at", "white_id") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["black_id", 47], ["board", nil], ["created_at", Mon, 30 Dec 2013 21:37:02 UTC +00:00], ["moves", "--- []\n"], ["turn", :white], ["updated_at", Mon, 30 Dec 2013 21:37:02 UTC +00:00], ["white_id", nil]]
+  [1m[35m (1.1ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.4ms)[0m  UPDATE "players" SET "game_id" = 27, "updated_at" = '2013-12-30 21:37:02.181820' WHERE "players"."id" = 47
+  [1m[36m (1.0ms)[0m  [1mcommit transaction[0m
+Completed 200 OK in 123ms (ActiveRecord: 6.3ms)
+
+
+Started GET "/find" for 127.0.0.1 at 2013-12-30 16:38:02 -0500
+Processing by GameController#find as */*
+  [1m[35mPlayer Load (0.2ms)[0m  SELECT "players".* FROM "players" WHERE "players"."session_token" = '28QSBLPQmxr9WbgM4X6PZQ' LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.8ms)[0m  INSERT INTO "players" ("color", "created_at", "game_id", "last_request", "session_token", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["color", nil], ["created_at", Mon, 30 Dec 2013 21:38:02 UTC +00:00], ["game_id", nil], ["last_request", 2013-12-30 16:38:02 -0500], ["session_token", "at6JRaF38lDX22Bm-_UQ3g"], ["updated_at", Mon, 30 Dec 2013 21:38:02 UTC +00:00]]
+  [1m[36m (2.5ms)[0m  [1mcommit transaction[0m
+  [1m[35mGame Load (0.3ms)[0m  SELECT "games".* FROM "games" WHERE (white_id IS NULL) ORDER BY "games"."id" DESC LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.4ms)[0m  UPDATE "players" SET "game_id" = 27, "updated_at" = '2013-12-30 21:38:02.616022' WHERE "players"."id" = 48
+  [1m[36m (1.5ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36m (0.3ms)[0m  [1mUPDATE "games" SET "black_id" = 48, "updated_at" = '2013-12-30 21:38:02.619641', "moves" = '--- []
+' WHERE "games"."id" = 27[0m
+  [1m[35m (0.7ms)[0m  commit transaction
+Completed 200 OK in 59ms (ActiveRecord: 7.1ms)
+
+
+Started GET "/find" for 127.0.0.1 at 2013-12-30 16:38:05 -0500
+Processing by GameController#find as */*
+  [1m[36mPlayer Load (0.2ms)[0m  [1mSELECT "players".* FROM "players" WHERE "players"."session_token" = 'at6JRaF38lDX22Bm-_UQ3g' LIMIT 1[0m
+  [1m[35mGame Load (0.2ms)[0m  SELECT "games".* FROM "games" WHERE "games"."id" = 27 LIMIT 1
+  [1m[36mMessage Load (0.2ms)[0m  [1mSELECT "messages".* FROM "messages" WHERE "messages"."game_id" = 27[0m
+Completed 200 OK in 1144ms (ActiveRecord: 0.6ms)
+
+
+Started GET "/find" for 127.0.0.1 at 2013-12-30 16:38:09 -0500
+Processing by GameController#find as */*
+  [1m[35mPlayer Load (0.3ms)[0m  SELECT "players".* FROM "players" WHERE "players"."session_token" = 'bHkwez4Ra7kOcsKkWV0O-w' LIMIT 1
+  [1m[36mGame Load (0.2ms)[0m  [1mSELECT "games".* FROM "games" WHERE "games"."id" = 27 LIMIT 1[0m
+  [1m[35mMessage Load (0.1ms)[0m  SELECT "messages".* FROM "messages" WHERE "messages"."game_id" = 27
+Completed 200 OK in 1150ms (ActiveRecord: 0.6ms)
+
+
+Started GET "/find" for 127.0.0.1 at 2013-12-30 16:38:37 -0500
+Processing by GameController#find as */*
+  [1m[36mPlayer Load (0.3ms)[0m  [1mSELECT "players".* FROM "players" WHERE "players"."session_token" = 'at6JRaF38lDX22Bm-_UQ3g' LIMIT 1[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.8ms)[0m  [1mINSERT INTO "players" ("color", "created_at", "game_id", "last_request", "session_token", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["color", nil], ["created_at", Mon, 30 Dec 2013 21:38:37 UTC +00:00], ["game_id", nil], ["last_request", 2013-12-30 16:38:37 -0500], ["session_token", "t2xbJ7DsrayqxcZ7v-HztQ"], ["updated_at", Mon, 30 Dec 2013 21:38:37 UTC +00:00]]
+  [1m[35m (5.2ms)[0m  commit transaction
+  [1m[36mGame Load (0.1ms)[0m  [1mSELECT "games".* FROM "games" WHERE (white_id IS NULL) ORDER BY "games"."id" DESC LIMIT 1[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mSQL (0.6ms)[0m  [1mINSERT INTO "games" ("black_id", "board", "created_at", "moves", "turn", "updated_at", "white_id") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["black_id", 49], ["board", nil], ["created_at", Mon, 30 Dec 2013 21:38:37 UTC +00:00], ["moves", "--- []\n"], ["turn", :white], ["updated_at", Mon, 30 Dec 2013 21:38:37 UTC +00:00], ["white_id", nil]]
+  [1m[35m (1.0ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.8ms)[0m  UPDATE "players" SET "game_id" = 28, "updated_at" = '2013-12-30 21:38:37.174300' WHERE "players"."id" = 49
+  [1m[36m (1.0ms)[0m  [1mcommit transaction[0m
+Completed 200 OK in 105ms (ActiveRecord: 10.1ms)
+
+
+Started GET "/find" for 127.0.0.1 at 2013-12-30 16:41:48 -0500
+Processing by GameController#find as */*
+  [1m[35mPlayer Load (0.2ms)[0m  SELECT "players".* FROM "players" WHERE "players"."session_token" = 't2xbJ7DsrayqxcZ7v-HztQ' LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.6ms)[0m  INSERT INTO "players" ("color", "created_at", "game_id", "last_request", "session_token", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["color", nil], ["created_at", Mon, 30 Dec 2013 21:41:48 UTC +00:00], ["game_id", nil], ["last_request", 2013-12-30 16:41:48 -0500], ["session_token", "Q4M6Xw-SSZimhEEXriWJpg"], ["updated_at", Mon, 30 Dec 2013 21:41:48 UTC +00:00]]
+  [1m[36m (1.6ms)[0m  [1mcommit transaction[0m
+  [1m[35mGame Load (0.2ms)[0m  SELECT "games".* FROM "games" WHERE (white_id IS NULL) ORDER BY "games"."id" DESC LIMIT 1
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "games" ("black_id", "board", "created_at", "moves", "turn", "updated_at", "white_id") VALUES (?, ?, ?, ?, ?, ?, ?)  [["black_id", 50], ["board", nil], ["created_at", Mon, 30 Dec 2013 21:41:48 UTC +00:00], ["moves", "--- []\n"], ["turn", :white], ["updated_at", Mon, 30 Dec 2013 21:41:48 UTC +00:00], ["white_id", nil]]
+  [1m[36m (0.8ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36m (0.3ms)[0m  [1mUPDATE "players" SET "game_id" = 29, "updated_at" = '2013-12-30 21:41:48.082243' WHERE "players"."id" = 50[0m
+  [1m[35m (1.0ms)[0m  commit transaction
+Completed 200 OK in 453ms (ActiveRecord: 5.5ms)
+
+
+Started GET "/find" for 127.0.0.1 at 2013-12-30 16:41:53 -0500
+Processing by GameController#find as */*
+  [1m[36mPlayer Load (0.7ms)[0m  [1mSELECT "players".* FROM "players" WHERE "players"."session_token" = 'bHkwez4Ra7kOcsKkWV0O-w' LIMIT 1[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.8ms)[0m  [1mINSERT INTO "players" ("color", "created_at", "game_id", "last_request", "session_token", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["color", nil], ["created_at", Mon, 30 Dec 2013 21:41:53 UTC +00:00], ["game_id", nil], ["last_request", 2013-12-30 16:41:53 -0500], ["session_token", "cpTksOWppARe-pxMZSuLwA"], ["updated_at", Mon, 30 Dec 2013 21:41:53 UTC +00:00]]
+  [1m[35m (5.0ms)[0m  commit transaction
+  [1m[36mGame Load (0.2ms)[0m  [1mSELECT "games".* FROM "games" WHERE (white_id IS NULL) ORDER BY "games"."id" DESC LIMIT 1[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.4ms)[0m  [1mUPDATE "players" SET "game_id" = 29, "updated_at" = '2013-12-30 21:41:53.752334' WHERE "players"."id" = 51[0m
+  [1m[35m (0.9ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.4ms)[0m  UPDATE "games" SET "black_id" = 51, "updated_at" = '2013-12-30 21:41:53.755527', "moves" = '--- []
+' WHERE "games"."id" = 29
+  [1m[36m (0.8ms)[0m  [1mcommit transaction[0m
+Completed 200 OK in 46ms (ActiveRecord: 9.4ms)
+
+
+Started GET "/find" for 127.0.0.1 at 2013-12-30 16:41:57 -0500
+Processing by GameController#find as */*
+  [1m[35mPlayer Load (0.3ms)[0m  SELECT "players".* FROM "players" WHERE "players"."session_token" = 'cpTksOWppARe-pxMZSuLwA' LIMIT 1
+  [1m[36mGame Load (0.2ms)[0m  [1mSELECT "games".* FROM "games" WHERE "games"."id" = 29 LIMIT 1[0m
+  [1m[35mMessage Load (0.2ms)[0m  SELECT "messages".* FROM "messages" WHERE "messages"."game_id" = 29
+Completed 200 OK in 1158ms (ActiveRecord: 0.7ms)
+
+
+Started POST "/move" for 127.0.0.1 at 2013-12-30 16:42:04 -0500
+Processing by GameController#move as */*
+  Parameters: {"sx"=>"6", "sy"=>"1", "ex"=>"4", "ey"=>"1"}
+  [1m[36mPlayer Load (0.2ms)[0m  [1mSELECT "players".* FROM "players" WHERE "players"."session_token" = 'cpTksOWppARe-pxMZSuLwA' LIMIT 1[0m
+  [1m[35mGame Load (0.1ms)[0m  SELECT "games".* FROM "games" WHERE "games"."id" = 29 LIMIT 1
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.3ms)[0m  UPDATE "games" SET "turn" = 'white', "updated_at" = '2013-12-30 21:42:04.503742', "moves" = '---
+- - - ''6''
+ - ''1''
+ - - ''4''
+ - ''1''
+' WHERE "games"."id" = 29
+  [1m[36m (1.2ms)[0m  [1mcommit transaction[0m
+  [1m[35mMessage Load (0.1ms)[0m  SELECT "messages".* FROM "messages" WHERE "messages"."game_id" = 29
+Completed 200 OK in 75ms (ActiveRecord: 2.0ms)
+
+
+Started GET "/find" for 127.0.0.1 at 2013-12-30 16:46:30 -0500
+Processing by GameController#find as */*
+  [1m[36mPlayer Load (0.4ms)[0m  [1mSELECT "players".* FROM "players" WHERE "players"."session_token" = 'cpTksOWppARe-pxMZSuLwA' LIMIT 1[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (1.1ms)[0m  [1mINSERT INTO "players" ("color", "created_at", "game_id", "last_request", "session_token", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["color", nil], ["created_at", Mon, 30 Dec 2013 21:46:30 UTC +00:00], ["game_id", nil], ["last_request", 2013-12-30 16:46:30 -0500], ["session_token", "ujQN6ZIokctnq0Wrjv5yGA"], ["updated_at", Mon, 30 Dec 2013 21:46:30 UTC +00:00]]
+  [1m[35m (1.9ms)[0m  commit transaction
+  [1m[36mGame Load (0.4ms)[0m  [1mSELECT "games".* FROM "games" WHERE (white_id IS NULL) ORDER BY "games"."id" DESC LIMIT 1[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.9ms)[0m  [1mINSERT INTO "games" ("black_id", "board", "created_at", "moves", "turn", "updated_at", "white_id") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["black_id", 52], ["board", nil], ["created_at", Mon, 30 Dec 2013 21:46:30 UTC +00:00], ["moves", "--- []\n"], ["turn", :white], ["updated_at", Mon, 30 Dec 2013 21:46:30 UTC +00:00], ["white_id", nil]]
+  [1m[35m (1.0ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.4ms)[0m  UPDATE "players" SET "game_id" = 30, "updated_at" = '2013-12-30 21:46:30.317254' WHERE "players"."id" = 52
+  [1m[36m (1.1ms)[0m  [1mcommit transaction[0m
+Completed 200 OK in 451ms (ActiveRecord: 8.2ms)
+
+
+Started GET "/find" for 127.0.0.1 at 2013-12-30 16:46:33 -0500
+Processing by GameController#find as */*
+  [1m[35mPlayer Load (0.5ms)[0m  SELECT "players".* FROM "players" WHERE "players"."session_token" = 'Q4M6Xw-SSZimhEEXriWJpg' LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "players" ("color", "created_at", "game_id", "last_request", "session_token", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["color", nil], ["created_at", Mon, 30 Dec 2013 21:46:33 UTC +00:00], ["game_id", nil], ["last_request", 2013-12-30 16:46:33 -0500], ["session_token", "Bz1v6fHX9R5AoIkfw-SuWg"], ["updated_at", Mon, 30 Dec 2013 21:46:33 UTC +00:00]]
+  [1m[36m (5.0ms)[0m  [1mcommit transaction[0m
+  [1m[35mGame Load (0.3ms)[0m  SELECT "games".* FROM "games" WHERE (white_id IS NULL) ORDER BY "games"."id" DESC LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.4ms)[0m  UPDATE "players" SET "game_id" = 30, "updated_at" = '2013-12-30 21:46:33.477898' WHERE "players"."id" = 53
+  [1m[36m (0.9ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.5ms)[0m  [1mUPDATE "games" SET "black_id" = 53, "updated_at" = '2013-12-30 21:46:33.481157', "moves" = '--- []
+' WHERE "games"."id" = 30[0m
+  [1m[35m (1.0ms)[0m  commit transaction
+Completed 500 Internal Server Error in 18ms
+
+ArgumentError (wrong number of arguments (2 for 3)):
+  app/controllers/game_controller.rb:16:in `find'
+
+
+  Rendered /Users/appacademy/.rvm/gems/ruby-1.9.3-p392/gems/actionpack-3.2.13/lib/action_dispatch/middleware/templates/rescues/_trace.erb (1.2ms)
+  Rendered /Users/appacademy/.rvm/gems/ruby-1.9.3-p392/gems/actionpack-3.2.13/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (1.0ms)
+  Rendered /Users/appacademy/.rvm/gems/ruby-1.9.3-p392/gems/actionpack-3.2.13/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (11.2ms)
+
+
+Started GET "/find" for 127.0.0.1 at 2013-12-30 16:46:51 -0500
+Processing by GameController#find as */*
+  [1m[36mPlayer Load (0.1ms)[0m  [1mSELECT "players".* FROM "players" WHERE "players"."session_token" = 'Q4M6Xw-SSZimhEEXriWJpg' LIMIT 1[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.6ms)[0m  [1mINSERT INTO "players" ("color", "created_at", "game_id", "last_request", "session_token", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["color", nil], ["created_at", Mon, 30 Dec 2013 21:46:51 UTC +00:00], ["game_id", nil], ["last_request", 2013-12-30 16:46:51 -0500], ["session_token", "aaQZb3g-sMAa01_ZN-zeaw"], ["updated_at", Mon, 30 Dec 2013 21:46:51 UTC +00:00]]
+  [1m[35m (4.8ms)[0m  commit transaction
+  [1m[36mGame Load (0.1ms)[0m  [1mSELECT "games".* FROM "games" WHERE (white_id IS NULL) ORDER BY "games"."id" DESC LIMIT 1[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.3ms)[0m  [1mUPDATE "players" SET "game_id" = 30, "updated_at" = '2013-12-30 21:46:51.295965' WHERE "players"."id" = 54[0m
+  [1m[35m (1.0ms)[0m  commit transaction
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.3ms)[0m  UPDATE "games" SET "black_id" = 54, "updated_at" = '2013-12-30 21:46:51.299565', "moves" = '--- []
+' WHERE "games"."id" = 30
+  [1m[36m (1.3ms)[0m  [1mcommit transaction[0m
+Completed 200 OK in 119ms (ActiveRecord: 9.5ms)
+
+
+Started GET "/find" for 127.0.0.1 at 2013-12-30 16:47:21 -0500
+Processing by GameController#find as */*
+  [1m[35mPlayer Load (0.3ms)[0m  SELECT "players".* FROM "players" WHERE "players"."session_token" = 'ujQN6ZIokctnq0Wrjv5yGA' LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.6ms)[0m  INSERT INTO "players" ("color", "created_at", "game_id", "last_request", "session_token", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["color", nil], ["created_at", Mon, 30 Dec 2013 21:47:21 UTC +00:00], ["game_id", nil], ["last_request", 2013-12-30 16:47:21 -0500], ["session_token", "Pfp1S82MgsSLKP_04OCYJw"], ["updated_at", Mon, 30 Dec 2013 21:47:21 UTC +00:00]]
+  [1m[36m (1.3ms)[0m  [1mcommit transaction[0m
+  [1m[35mGame Load (0.2ms)[0m  SELECT "games".* FROM "games" WHERE (white_id IS NULL) ORDER BY "games"."id" DESC LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.9ms)[0m  INSERT INTO "games" ("black_id", "board", "created_at", "moves", "turn", "updated_at", "white_id") VALUES (?, ?, ?, ?, ?, ?, ?)  [["black_id", 55], ["board", nil], ["created_at", Mon, 30 Dec 2013 21:47:21 UTC +00:00], ["moves", "--- []\n"], ["turn", :white], ["updated_at", Mon, 30 Dec 2013 21:47:21 UTC +00:00], ["white_id", nil]]
+  [1m[36m (1.1ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.3ms)[0m  [1mUPDATE "players" SET "game_id" = 31, "updated_at" = '2013-12-30 21:47:21.074624' WHERE "players"."id" = 55[0m
+  [1m[35m (0.9ms)[0m  commit transaction
+Completed 200 OK in 84ms (ActiveRecord: 6.0ms)
+
+
+Started GET "/find" for 127.0.0.1 at 2013-12-30 16:47:29 -0500
+Processing by GameController#find as */*
+  [1m[36mPlayer Load (0.3ms)[0m  [1mSELECT "players".* FROM "players" WHERE "players"."session_token" = 'aaQZb3g-sMAa01_ZN-zeaw' LIMIT 1[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (1.0ms)[0m  [1mINSERT INTO "players" ("color", "created_at", "game_id", "last_request", "session_token", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["color", nil], ["created_at", Mon, 30 Dec 2013 21:47:29 UTC +00:00], ["game_id", nil], ["last_request", 2013-12-30 16:47:29 -0500], ["session_token", "TWBZcXrczOsX6_e8FVXmGw"], ["updated_at", Mon, 30 Dec 2013 21:47:29 UTC +00:00]]
+  [1m[35m (1.3ms)[0m  commit transaction
+  [1m[36mGame Load (0.2ms)[0m  [1mSELECT "games".* FROM "games" WHERE (white_id IS NULL) ORDER BY "games"."id" DESC LIMIT 1[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.3ms)[0m  [1mUPDATE "players" SET "game_id" = 31, "updated_at" = '2013-12-30 21:47:29.187873' WHERE "players"."id" = 56[0m
+  [1m[35m (1.0ms)[0m  commit transaction
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.3ms)[0m  UPDATE "games" SET "black_id" = 56, "updated_at" = '2013-12-30 21:47:29.190419', "moves" = '--- []
+' WHERE "games"."id" = 31
+  [1m[36m (0.9ms)[0m  [1mcommit transaction[0m
+Completed 200 OK in 107ms (ActiveRecord: 5.5ms)
+
+
+Started GET "/find" for 127.0.0.1 at 2013-12-30 16:47:40 -0500
+Processing by GameController#find as */*
+  [1m[35mPlayer Load (0.5ms)[0m  SELECT "players".* FROM "players" WHERE "players"."session_token" = 'Pfp1S82MgsSLKP_04OCYJw' LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.6ms)[0m  INSERT INTO "players" ("color", "created_at", "game_id", "last_request", "session_token", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["color", nil], ["created_at", Mon, 30 Dec 2013 21:47:40 UTC +00:00], ["game_id", nil], ["last_request", 2013-12-30 16:47:40 -0500], ["session_token", "-1kqnkW9j78ytbp8DfCyFg"], ["updated_at", Mon, 30 Dec 2013 21:47:40 UTC +00:00]]
+  [1m[36m (46.7ms)[0m  [1mcommit transaction[0m
+  [1m[35mGame Load (0.2ms)[0m  SELECT "games".* FROM "games" WHERE (white_id IS NULL) ORDER BY "games"."id" DESC LIMIT 1
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "games" ("black_id", "board", "created_at", "moves", "turn", "updated_at", "white_id") VALUES (?, ?, ?, ?, ?, ?, ?)  [["black_id", 57], ["board", nil], ["created_at", Mon, 30 Dec 2013 21:47:40 UTC +00:00], ["moves", "--- []\n"], ["turn", :white], ["updated_at", Mon, 30 Dec 2013 21:47:40 UTC +00:00], ["white_id", nil]]
+  [1m[36m (0.9ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.3ms)[0m  [1mUPDATE "players" SET "game_id" = 32, "updated_at" = '2013-12-30 21:47:40.780495' WHERE "players"."id" = 57[0m
+  [1m[35m (1.1ms)[0m  commit transaction
+Completed 200 OK in 126ms (ActiveRecord: 50.9ms)
+
+
+Started GET "/find" for 127.0.0.1 at 2013-12-30 16:49:05 -0500
+Processing by GameController#find as */*
+  [1m[36mPlayer Load (0.3ms)[0m  [1mSELECT "players".* FROM "players" WHERE "players"."session_token" = '-1kqnkW9j78ytbp8DfCyFg' LIMIT 1[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.7ms)[0m  [1mINSERT INTO "players" ("color", "created_at", "game_id", "last_request", "session_token", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["color", nil], ["created_at", Mon, 30 Dec 2013 21:49:05 UTC +00:00], ["game_id", nil], ["last_request", 2013-12-30 16:49:05 -0500], ["session_token", "bmucqEJkUQjIrfrLFpI3Lg"], ["updated_at", Mon, 30 Dec 2013 21:49:05 UTC +00:00]]
+  [1m[35m (1.1ms)[0m  commit transaction
+  [1m[36mGame Load (0.2ms)[0m  [1mSELECT "games".* FROM "games" WHERE (white_id IS NULL) ORDER BY "games"."id" DESC LIMIT 1[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.6ms)[0m  [1mINSERT INTO "games" ("black_id", "board", "created_at", "moves", "turn", "updated_at", "white_id") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["black_id", 58], ["board", nil], ["created_at", Mon, 30 Dec 2013 21:49:05 UTC +00:00], ["moves", "--- []\n"], ["turn", :white], ["updated_at", Mon, 30 Dec 2013 21:49:05 UTC +00:00], ["white_id", nil]]
+  [1m[35m (1.2ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (1.2ms)[0m  UPDATE "players" SET "game_id" = 33, "updated_at" = '2013-12-30 21:49:05.206930' WHERE "players"."id" = 58
+  [1m[36m (1.0ms)[0m  [1mcommit transaction[0m
+Completed 200 OK in 399ms (ActiveRecord: 6.5ms)
+
+
+Started GET "/find" for 127.0.0.1 at 2013-12-30 16:49:31 -0500
+Processing by GameController#find as */*
+  [1m[35mPlayer Load (0.2ms)[0m  SELECT "players".* FROM "players" WHERE "players"."session_token" = 'TWBZcXrczOsX6_e8FVXmGw' LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.6ms)[0m  INSERT INTO "players" ("color", "created_at", "game_id", "last_request", "session_token", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["color", nil], ["created_at", Mon, 30 Dec 2013 21:49:31 UTC +00:00], ["game_id", nil], ["last_request", 2013-12-30 16:49:31 -0500], ["session_token", "j5yMoQdaRu_-qqwX6wg-JQ"], ["updated_at", Mon, 30 Dec 2013 21:49:31 UTC +00:00]]
+  [1m[36m (5.0ms)[0m  [1mcommit transaction[0m
+  [1m[35mGame Load (0.2ms)[0m  SELECT "games".* FROM "games" WHERE (white_id IS NULL) ORDER BY "games"."id" DESC LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.4ms)[0m  UPDATE "players" SET "game_id" = 33, "updated_at" = '2013-12-30 21:49:31.252370' WHERE "players"."id" = 59
+  [1m[36m (0.9ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.3ms)[0m  [1mUPDATE "games" SET "black_id" = 59, "updated_at" = '2013-12-30 21:49:31.255059', "moves" = '--- []
+' WHERE "games"."id" = 33[0m
+  [1m[35m (1.1ms)[0m  commit transaction
+Completed 200 OK in 97ms (ActiveRecord: 9.0ms)
+
+
+Started GET "/find" for 127.0.0.1 at 2013-12-30 16:49:54 -0500
+Processing by GameController#find as */*
+  [1m[36mPlayer Load (0.2ms)[0m  [1mSELECT "players".* FROM "players" WHERE "players"."session_token" = 'j5yMoQdaRu_-qqwX6wg-JQ' LIMIT 1[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "players" ("color", "created_at", "game_id", "last_request", "session_token", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["color", nil], ["created_at", Mon, 30 Dec 2013 21:49:54 UTC +00:00], ["game_id", nil], ["last_request", 2013-12-30 16:49:54 -0500], ["session_token", "NIPwXkUePUjmjjokjl4WeA"], ["updated_at", Mon, 30 Dec 2013 21:49:54 UTC +00:00]]
+  [1m[35m (5.5ms)[0m  commit transaction
+  [1m[36mGame Load (0.2ms)[0m  [1mSELECT "games".* FROM "games" WHERE (white_id IS NULL) ORDER BY "games"."id" DESC LIMIT 1[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "games" ("black_id", "board", "created_at", "moves", "turn", "updated_at", "white_id") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["black_id", 60], ["board", nil], ["created_at", Mon, 30 Dec 2013 21:49:54 UTC +00:00], ["moves", "--- []\n"], ["turn", :white], ["updated_at", Mon, 30 Dec 2013 21:49:54 UTC +00:00], ["white_id", nil]]
+  [1m[35m (1.2ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.4ms)[0m  UPDATE "players" SET "game_id" = 34, "updated_at" = '2013-12-30 21:49:54.100483' WHERE "players"."id" = 60
+  [1m[36m (0.9ms)[0m  [1mcommit transaction[0m
+Completed 200 OK in 82ms (ActiveRecord: 9.2ms)
+
+
+Started GET "/find" for 127.0.0.1 at 2013-12-30 16:50:25 -0500
+Processing by GameController#find as */*
+  [1m[35mPlayer Load (0.5ms)[0m  SELECT "players".* FROM "players" WHERE "players"."session_token" = 'bmucqEJkUQjIrfrLFpI3Lg' LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.6ms)[0m  INSERT INTO "players" ("color", "created_at", "game_id", "last_request", "session_token", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["color", nil], ["created_at", Mon, 30 Dec 2013 21:50:25 UTC +00:00], ["game_id", nil], ["last_request", 2013-12-30 16:50:25 -0500], ["session_token", "llXArs8t2MZQEcQ7YxRFIg"], ["updated_at", Mon, 30 Dec 2013 21:50:25 UTC +00:00]]
+  [1m[36m (1.0ms)[0m  [1mcommit transaction[0m
+  [1m[35mGame Load (0.2ms)[0m  SELECT "games".* FROM "games" WHERE (white_id IS NULL) ORDER BY "games"."id" DESC LIMIT 1
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "games" ("black_id", "board", "created_at", "moves", "turn", "updated_at", "white_id") VALUES (?, ?, ?, ?, ?, ?, ?)  [["black_id", 61], ["board", nil], ["created_at", Mon, 30 Dec 2013 21:50:25 UTC +00:00], ["moves", "--- []\n"], ["turn", :white], ["updated_at", Mon, 30 Dec 2013 21:50:25 UTC +00:00], ["white_id", nil]]
+  [1m[36m (0.8ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36m (0.3ms)[0m  [1mUPDATE "players" SET "game_id" = 35, "updated_at" = '2013-12-30 21:50:25.510394' WHERE "players"."id" = 61[0m
+  [1m[35m (0.8ms)[0m  commit transaction
+Completed 200 OK in 425ms (ActiveRecord: 5.0ms)
+
+
+Started GET "/find" for 127.0.0.1 at 2013-12-30 16:50:50 -0500
+Processing by GameController#find as */*
+  [1m[36mPlayer Load (0.2ms)[0m  [1mSELECT "players".* FROM "players" WHERE "players"."session_token" = 'NIPwXkUePUjmjjokjl4WeA' LIMIT 1[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "players" ("color", "created_at", "game_id", "last_request", "session_token", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["color", nil], ["created_at", Mon, 30 Dec 2013 21:50:50 UTC +00:00], ["game_id", nil], ["last_request", 2013-12-30 16:50:50 -0500], ["session_token", "5bGsodK0ss-KZPomzkTfBQ"], ["updated_at", Mon, 30 Dec 2013 21:50:50 UTC +00:00]]
+  [1m[35m (1.5ms)[0m  commit transaction
+  [1m[36mGame Load (0.1ms)[0m  [1mSELECT "games".* FROM "games" WHERE (white_id IS NULL) ORDER BY "games"."id" DESC LIMIT 1[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36m (0.2ms)[0m  [1mUPDATE "players" SET "game_id" = 35, "updated_at" = '2013-12-30 21:50:50.197183' WHERE "players"."id" = 62[0m
+  [1m[35m (1.1ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.3ms)[0m  UPDATE "games" SET "black_id" = 62, "updated_at" = '2013-12-30 21:50:50.199938', "moves" = '--- []
+' WHERE "games"."id" = 35
+  [1m[36m (1.2ms)[0m  [1mcommit transaction[0m
+Completed 200 OK in 92ms (ActiveRecord: 5.2ms)
+
+
+Started GET "/find" for 127.0.0.1 at 2013-12-30 16:50:58 -0500
+Processing by GameController#find as */*
+  [1m[35mPlayer Load (0.2ms)[0m  SELECT "players".* FROM "players" WHERE "players"."session_token" = '5bGsodK0ss-KZPomzkTfBQ' LIMIT 1
+  [1m[36mGame Load (0.1ms)[0m  [1mSELECT "games".* FROM "games" WHERE "games"."id" = 35 LIMIT 1[0m
+  [1m[35mMessage Load (0.1ms)[0m  SELECT "messages".* FROM "messages" WHERE "messages"."game_id" = 35
+Completed 200 OK in 1206ms (ActiveRecord: 0.7ms)
+
+
+Started GET "/find" for 127.0.0.1 at 2013-12-30 16:50:59 -0500
+Processing by GameController#find as */*
+  [1m[36mPlayer Load (0.2ms)[0m  [1mSELECT "players".* FROM "players" WHERE "players"."session_token" = '5bGsodK0ss-KZPomzkTfBQ' LIMIT 1[0m
+  [1m[35mGame Load (0.2ms)[0m  SELECT "games".* FROM "games" WHERE "games"."id" = 35 LIMIT 1
+  [1m[36mMessage Load (0.2ms)[0m  [1mSELECT "messages".* FROM "messages" WHERE "messages"."game_id" = 35[0m
+Completed 200 OK in 1148ms (ActiveRecord: 0.5ms)
+
+
+Started GET "/find" for 127.0.0.1 at 2013-12-30 16:51:03 -0500
+Processing by GameController#find as */*
+  [1m[35mPlayer Load (0.2ms)[0m  SELECT "players".* FROM "players" WHERE "players"."session_token" = '5bGsodK0ss-KZPomzkTfBQ' LIMIT 1
+  [1m[36mGame Load (0.2ms)[0m  [1mSELECT "games".* FROM "games" WHERE "games"."id" = 35 LIMIT 1[0m
+  [1m[35mMessage Load (0.2ms)[0m  SELECT "messages".* FROM "messages" WHERE "messages"."game_id" = 35
+Completed 200 OK in 1141ms (ActiveRecord: 0.5ms)
+
+
+Started GET "/find" for 127.0.0.1 at 2013-12-30 16:51:05 -0500
+Processing by GameController#find as */*
+  [1m[36mPlayer Load (0.2ms)[0m  [1mSELECT "players".* FROM "players" WHERE "players"."session_token" = '5bGsodK0ss-KZPomzkTfBQ' LIMIT 1[0m
+  [1m[35mGame Load (0.3ms)[0m  SELECT "games".* FROM "games" WHERE "games"."id" = 35 LIMIT 1
+  [1m[36mMessage Load (0.2ms)[0m  [1mSELECT "messages".* FROM "messages" WHERE "messages"."game_id" = 35[0m
+Completed 200 OK in 1162ms (ActiveRecord: 0.7ms)
+
+
+Started GET "/find" for 127.0.0.1 at 2013-12-30 16:51:09 -0500
+Processing by GameController#find as */*
+  [1m[35mPlayer Load (0.2ms)[0m  SELECT "players".* FROM "players" WHERE "players"."session_token" = '5bGsodK0ss-KZPomzkTfBQ' LIMIT 1
+  [1m[36mGame Load (0.3ms)[0m  [1mSELECT "games".* FROM "games" WHERE "games"."id" = 35 LIMIT 1[0m
+  [1m[35mMessage Load (0.2ms)[0m  SELECT "messages".* FROM "messages" WHERE "messages"."game_id" = 35
+Completed 200 OK in 1140ms (ActiveRecord: 0.7ms)
+
+
+Started GET "/find" for 127.0.0.1 at 2013-12-30 16:51:11 -0500
+Processing by GameController#find as */*
+  [1m[36mPlayer Load (0.2ms)[0m  [1mSELECT "players".* FROM "players" WHERE "players"."session_token" = 'llXArs8t2MZQEcQ7YxRFIg' LIMIT 1[0m
+  [1m[35mGame Load (0.2ms)[0m  SELECT "games".* FROM "games" WHERE "games"."id" = 35 LIMIT 1
+  [1m[36mMessage Load (0.2ms)[0m  [1mSELECT "messages".* FROM "messages" WHERE "messages"."game_id" = 35[0m
+Completed 200 OK in 1244ms (ActiveRecord: 0.7ms)
+
+
+Started GET "/find" for 127.0.0.1 at 2013-12-30 16:51:13 -0500
+Processing by GameController#find as */*
+  [1m[35mPlayer Load (0.2ms)[0m  SELECT "players".* FROM "players" WHERE "players"."session_token" = 'llXArs8t2MZQEcQ7YxRFIg' LIMIT 1
+  [1m[36mGame Load (0.3ms)[0m  [1mSELECT "games".* FROM "games" WHERE "games"."id" = 35 LIMIT 1[0m
+  [1m[35mMessage Load (0.2ms)[0m  SELECT "messages".* FROM "messages" WHERE "messages"."game_id" = 35
+Completed 200 OK in 1169ms (ActiveRecord: 0.7ms)
+
+
+Started GET "/find" for 127.0.0.1 at 2013-12-30 16:51:16 -0500
+Processing by GameController#find as */*
+  [1m[36mPlayer Load (0.3ms)[0m  [1mSELECT "players".* FROM "players" WHERE "players"."session_token" = '5bGsodK0ss-KZPomzkTfBQ' LIMIT 1[0m
+  [1m[35mGame Load (0.6ms)[0m  SELECT "games".* FROM "games" WHERE "games"."id" = 35 LIMIT 1
+  [1m[36mMessage Load (0.2ms)[0m  [1mSELECT "messages".* FROM "messages" WHERE "messages"."game_id" = 35[0m
+Completed 200 OK in 1158ms (ActiveRecord: 1.1ms)
+
+
+Started GET "/find" for 127.0.0.1 at 2013-12-30 16:51:17 -0500
+Processing by GameController#find as */*
+  [1m[35mPlayer Load (0.8ms)[0m  SELECT "players".* FROM "players" WHERE "players"."session_token" = '5bGsodK0ss-KZPomzkTfBQ' LIMIT 1
+  [1m[36mGame Load (0.3ms)[0m  [1mSELECT "games".* FROM "games" WHERE "games"."id" = 35 LIMIT 1[0m
+  [1m[35mMessage Load (0.2ms)[0m  SELECT "messages".* FROM "messages" WHERE "messages"."game_id" = 35
+Completed 200 OK in 1144ms (ActiveRecord: 1.2ms)
+
+
+Started GET "/find" for 127.0.0.1 at 2013-12-30 16:51:19 -0500
+Processing by GameController#find as */*
+  [1m[36mPlayer Load (0.2ms)[0m  [1mSELECT "players".* FROM "players" WHERE "players"."session_token" = '5bGsodK0ss-KZPomzkTfBQ' LIMIT 1[0m
+  [1m[35mGame Load (0.4ms)[0m  SELECT "games".* FROM "games" WHERE "games"."id" = 35 LIMIT 1
+  [1m[36mMessage Load (0.2ms)[0m  [1mSELECT "messages".* FROM "messages" WHERE "messages"."game_id" = 35[0m
+Completed 200 OK in 1151ms (ActiveRecord: 0.8ms)
+
+
+Started GET "/find" for 127.0.0.1 at 2013-12-30 16:51:59 -0500
+Processing by GameController#find as */*
+  [1m[35mPlayer Load (0.1ms)[0m  SELECT "players".* FROM "players" WHERE "players"."session_token" = 'llXArs8t2MZQEcQ7YxRFIg' LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.6ms)[0m  INSERT INTO "players" ("color", "created_at", "game_id", "last_request", "session_token", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["color", nil], ["created_at", Mon, 30 Dec 2013 21:51:59 UTC +00:00], ["game_id", nil], ["last_request", 2013-12-30 16:51:59 -0500], ["session_token", "f0dA3NibNLo_FuJuziTcag"], ["updated_at", Mon, 30 Dec 2013 21:51:59 UTC +00:00]]
+  [1m[36m (5.4ms)[0m  [1mcommit transaction[0m
+  [1m[35mGame Load (0.1ms)[0m  SELECT "games".* FROM "games" WHERE (white_id IS NULL) ORDER BY "games"."id" DESC LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "games" ("black_id", "board", "created_at", "moves", "turn", "updated_at", "white_id") VALUES (?, ?, ?, ?, ?, ?, ?)  [["black_id", 63], ["board", nil], ["created_at", Mon, 30 Dec 2013 21:51:59 UTC +00:00], ["moves", "--- []\n"], ["turn", :white], ["updated_at", Mon, 30 Dec 2013 21:51:59 UTC +00:00], ["white_id", nil]]
+  [1m[36m (1.8ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.3ms)[0m  [1mUPDATE "players" SET "game_id" = 36, "updated_at" = '2013-12-30 21:51:59.881352' WHERE "players"."id" = 63[0m
+  [1m[35m (1.1ms)[0m  commit transaction
+Completed 200 OK in 441ms (ActiveRecord: 11.2ms)
+
+
+Started GET "/find" for 127.0.0.1 at 2013-12-30 16:52:06 -0500
+Processing by GameController#find as */*
+  [1m[36mPlayer Load (0.3ms)[0m  [1mSELECT "players".* FROM "players" WHERE "players"."session_token" = '5bGsodK0ss-KZPomzkTfBQ' LIMIT 1[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.8ms)[0m  [1mINSERT INTO "players" ("color", "created_at", "game_id", "last_request", "session_token", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["color", nil], ["created_at", Mon, 30 Dec 2013 21:52:06 UTC +00:00], ["game_id", nil], ["last_request", 2013-12-30 16:52:06 -0500], ["session_token", "SJE-xnM6rxSeQjAtsTgQZQ"], ["updated_at", Mon, 30 Dec 2013 21:52:06 UTC +00:00]]
+  [1m[35m (5.0ms)[0m  commit transaction
+  [1m[36mGame Load (0.3ms)[0m  [1mSELECT "games".* FROM "games" WHERE (white_id IS NULL) ORDER BY "games"."id" DESC LIMIT 1[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.5ms)[0m  [1mUPDATE "players" SET "game_id" = 36, "updated_at" = '2013-12-30 21:52:06.103341' WHERE "players"."id" = 64[0m
+  [1m[35m (0.9ms)[0m  commit transaction
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.3ms)[0m  UPDATE "games" SET "white_id" = 64, "updated_at" = '2013-12-30 21:52:06.106640', "moves" = '--- []
+' WHERE "games"."id" = 36
+  [1m[36m (1.2ms)[0m  [1mcommit transaction[0m
+Completed 200 OK in 110ms (ActiveRecord: 9.5ms)
+
+
+Started GET "/find" for 127.0.0.1 at 2013-12-30 16:52:07 -0500
+Processing by GameController#find as */*
+  [1m[35mPlayer Load (1.1ms)[0m  SELECT "players".* FROM "players" WHERE "players"."session_token" = 'SJE-xnM6rxSeQjAtsTgQZQ' LIMIT 1
+  [1m[36mGame Load (0.3ms)[0m  [1mSELECT "games".* FROM "games" WHERE "games"."id" = 36 LIMIT 1[0m
+  [1m[35mMessage Load (0.1ms)[0m  SELECT "messages".* FROM "messages" WHERE "messages"."game_id" = 36
+Completed 200 OK in 1153ms (ActiveRecord: 1.8ms)
+
+
+Started GET "/find" for 127.0.0.1 at 2013-12-30 16:52:09 -0500
+Processing by GameController#find as */*
+  [1m[36mPlayer Load (0.4ms)[0m  [1mSELECT "players".* FROM "players" WHERE "players"."session_token" = 'f0dA3NibNLo_FuJuziTcag' LIMIT 1[0m
+  [1m[35mGame Load (0.2ms)[0m  SELECT "games".* FROM "games" WHERE "games"."id" = 36 LIMIT 1
+  [1m[36mMessage Load (0.3ms)[0m  [1mSELECT "messages".* FROM "messages" WHERE "messages"."game_id" = 36[0m
+Completed 200 OK in 1151ms (ActiveRecord: 0.9ms)
+
+
+Started GET "/find" for 127.0.0.1 at 2013-12-30 16:52:11 -0500
+Processing by GameController#find as */*
+  [1m[35mPlayer Load (0.2ms)[0m  SELECT "players".* FROM "players" WHERE "players"."session_token" = 'f0dA3NibNLo_FuJuziTcag' LIMIT 1
+  [1m[36mGame Load (0.3ms)[0m  [1mSELECT "games".* FROM "games" WHERE "games"."id" = 36 LIMIT 1[0m
+  [1m[35mMessage Load (0.2ms)[0m  SELECT "messages".* FROM "messages" WHERE "messages"."game_id" = 36
+Completed 200 OK in 1146ms (ActiveRecord: 0.7ms)
+
+
+Started GET "/find" for 127.0.0.1 at 2013-12-30 16:52:13 -0500
+Processing by GameController#find as */*
+  [1m[36mPlayer Load (0.2ms)[0m  [1mSELECT "players".* FROM "players" WHERE "players"."session_token" = 'SJE-xnM6rxSeQjAtsTgQZQ' LIMIT 1[0m
+  [1m[35mGame Load (0.3ms)[0m  SELECT "games".* FROM "games" WHERE "games"."id" = 36 LIMIT 1
+  [1m[36mMessage Load (0.1ms)[0m  [1mSELECT "messages".* FROM "messages" WHERE "messages"."game_id" = 36[0m
+Completed 200 OK in 1139ms (ActiveRecord: 0.6ms)
+
+
+Started GET "/find" for 127.0.0.1 at 2013-12-30 16:57:58 -0500
+Processing by GameController#find as */*
+  [1m[35mPlayer Load (0.1ms)[0m  SELECT "players".* FROM "players" WHERE "players"."session_token" = 'f0dA3NibNLo_FuJuziTcag' LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.6ms)[0m  INSERT INTO "players" ("color", "created_at", "game_id", "last_request", "session_token", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["color", nil], ["created_at", Mon, 30 Dec 2013 21:57:58 UTC +00:00], ["game_id", nil], ["last_request", 2013-12-30 16:57:58 -0500], ["session_token", "PHZKTKMGa4QUcgipN6dVbA"], ["updated_at", Mon, 30 Dec 2013 21:57:58 UTC +00:00]]
+  [1m[36m (5.0ms)[0m  [1mcommit transaction[0m
+  [1m[35mGame Load (0.1ms)[0m  SELECT "games".* FROM "games" WHERE (white_id IS NULL) ORDER BY "games"."id" DESC LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.6ms)[0m  INSERT INTO "games" ("black_id", "board", "created_at", "moves", "turn", "updated_at", "white_id") VALUES (?, ?, ?, ?, ?, ?, ?)  [["black_id", 65], ["board", nil], ["created_at", Mon, 30 Dec 2013 21:57:58 UTC +00:00], ["moves", "--- []\n"], ["turn", :white], ["updated_at", Mon, 30 Dec 2013 21:57:58 UTC +00:00], ["white_id", nil]]
+  [1m[36m (1.2ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.3ms)[0m  [1mUPDATE "players" SET "game_id" = 37, "updated_at" = '2013-12-30 21:57:58.564893' WHERE "players"."id" = 65[0m
+  [1m[35m (1.2ms)[0m  commit transaction
+Completed 200 OK in 38ms (ActiveRecord: 10.4ms)
+
+
+Started GET "/find" for 127.0.0.1 at 2013-12-30 17:01:27 -0500
+Processing by GameController#find as */*
+  [1m[36mPlayer Load (0.1ms)[0m  [1mSELECT "players".* FROM "players" WHERE "players"."session_token" = 'PHZKTKMGa4QUcgipN6dVbA' LIMIT 1[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.7ms)[0m  [1mINSERT INTO "players" ("color", "created_at", "game_id", "last_request", "session_token", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["color", nil], ["created_at", Mon, 30 Dec 2013 22:01:28 UTC +00:00], ["game_id", nil], ["last_request", 2013-12-30 17:01:28 -0500], ["session_token", "CIsw5FVGgDEEkEsdULUjug"], ["updated_at", Mon, 30 Dec 2013 22:01:28 UTC +00:00]]
+  [1m[35m (1.4ms)[0m  commit transaction
+  [1m[36mGame Load (0.1ms)[0m  [1mSELECT "games".* FROM "games" WHERE (white_id IS NULL) ORDER BY "games"."id" DESC LIMIT 1[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.6ms)[0m  [1mINSERT INTO "games" ("black_id", "board", "created_at", "moves", "turn", "updated_at", "white_id") VALUES (?, ?, ?, ?, ?, ?, ?)[0m  [["black_id", 66], ["board", nil], ["created_at", Mon, 30 Dec 2013 22:01:28 UTC +00:00], ["moves", "--- []\n"], ["turn", :white], ["updated_at", Mon, 30 Dec 2013 22:01:28 UTC +00:00], ["white_id", nil]]
+  [1m[35m (1.1ms)[0m  commit transaction
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.3ms)[0m  UPDATE "players" SET "game_id" = 38, "updated_at" = '2013-12-30 22:01:28.055541' WHERE "players"."id" = 66
+  [1m[36m (0.9ms)[0m  [1mcommit transaction[0m
+Completed 200 OK in 34ms (Views: 0.2ms | ActiveRecord: 6.2ms)
+
+
+Started GET "/find" for 127.0.0.1 at 2013-12-30 17:01:37 -0500
+Processing by GameController#find as */*
+  [1m[35mPlayer Load (0.2ms)[0m  SELECT "players".* FROM "players" WHERE "players"."session_token" = 'SJE-xnM6rxSeQjAtsTgQZQ' LIMIT 1
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.6ms)[0m  INSERT INTO "players" ("color", "created_at", "game_id", "last_request", "session_token", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["color", nil], ["created_at", Mon, 30 Dec 2013 22:01:37 UTC +00:00], ["game_id", nil], ["last_request", 2013-12-30 17:01:37 -0500], ["session_token", "FlkPBVgCwogrPXwSZEbYJQ"], ["updated_at", Mon, 30 Dec 2013 22:01:37 UTC +00:00]]
+  [1m[36m (13.5ms)[0m  [1mcommit transaction[0m
+  [1m[35mGame Load (0.2ms)[0m  SELECT "games".* FROM "games" WHERE (white_id IS NULL) ORDER BY "games"."id" DESC LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.5ms)[0m  UPDATE "players" SET "game_id" = 38, "updated_at" = '2013-12-30 22:01:37.136274' WHERE "players"."id" = 67
+  [1m[36m (2.7ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.5ms)[0m  [1mUPDATE "games" SET "white_id" = 67, "updated_at" = '2013-12-30 22:01:37.142727', "moves" = '--- []
+' WHERE "games"."id" = 38[0m
+  [1m[35m (16.9ms)[0m  commit transaction
+  [1m[36mMessage Load (0.1ms)[0m  [1mSELECT "messages".* FROM "messages" WHERE "messages"."game_id" = 38[0m
+Completed 200 OK in 506ms (Views: 0.3ms | ActiveRecord: 35.7ms)
+
+
+Started GET "/find" for 127.0.0.1 at 2013-12-30 17:03:14 -0500
+Processing by GameController#find as */*
+  [1m[35mPlayer Load (0.2ms)[0m  SELECT "players".* FROM "players" WHERE "players"."session_token" = 'CIsw5FVGgDEEkEsdULUjug' LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "players" ("color", "created_at", "game_id", "last_request", "session_token", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["color", nil], ["created_at", Mon, 30 Dec 2013 22:03:14 UTC +00:00], ["game_id", nil], ["last_request", 2013-12-30 17:03:14 -0500], ["session_token", "CrW8SApC3_cyKHzgKDw3Zw"], ["updated_at", Mon, 30 Dec 2013 22:03:14 UTC +00:00]]
+  [1m[36m (1.4ms)[0m  [1mcommit transaction[0m
+  [1m[35mGame Load (0.1ms)[0m  SELECT "games".* FROM "games" WHERE (white_id IS NULL) ORDER BY "games"."id" DESC LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.6ms)[0m  INSERT INTO "games" ("black_id", "board", "created_at", "moves", "turn", "updated_at", "white_id") VALUES (?, ?, ?, ?, ?, ?, ?)  [["black_id", 68], ["board", nil], ["created_at", Mon, 30 Dec 2013 22:03:14 UTC +00:00], ["moves", "--- []\n"], ["turn", :white], ["updated_at", Mon, 30 Dec 2013 22:03:14 UTC +00:00], ["white_id", nil]]
+  [1m[36m (1.2ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.3ms)[0m  [1mUPDATE "players" SET "game_id" = 39, "color" = 'black', "updated_at" = '2013-12-30 22:03:14.266728' WHERE "players"."id" = 68[0m
+  [1m[35m (1.1ms)[0m  commit transaction
+Completed 200 OK in 34ms (Views: 0.2ms | ActiveRecord: 6.3ms)
+
+
+Started GET "/find" for 127.0.0.1 at 2013-12-30 17:03:27 -0500
+Processing by GameController#find as */*
+  [1m[36mPlayer Load (0.2ms)[0m  [1mSELECT "players".* FROM "players" WHERE "players"."session_token" = 'FlkPBVgCwogrPXwSZEbYJQ' LIMIT 1[0m
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36mSQL (0.8ms)[0m  [1mINSERT INTO "players" ("color", "created_at", "game_id", "last_request", "session_token", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["color", nil], ["created_at", Mon, 30 Dec 2013 22:03:27 UTC +00:00], ["game_id", nil], ["last_request", 2013-12-30 17:03:27 -0500], ["session_token", "TN15XSCymg-MBJXW8bjLbg"], ["updated_at", Mon, 30 Dec 2013 22:03:27 UTC +00:00]]
+  [1m[35m (5.0ms)[0m  commit transaction
+  [1m[36mGame Load (0.2ms)[0m  [1mSELECT "games".* FROM "games" WHERE (white_id IS NULL) ORDER BY "games"."id" DESC LIMIT 1[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36m (0.4ms)[0m  [1mUPDATE "players" SET "game_id" = 39, "color" = 'white', "updated_at" = '2013-12-30 22:03:27.069255' WHERE "players"."id" = 69[0m
+  [1m[35m (0.9ms)[0m  commit transaction
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.3ms)[0m  UPDATE "games" SET "white_id" = 69, "updated_at" = '2013-12-30 22:03:27.072273', "moves" = '--- []
+' WHERE "games"."id" = 39
+  [1m[36m (1.3ms)[0m  [1mcommit transaction[0m
+  [1m[35mMessage Load (0.1ms)[0m  SELECT "messages".* FROM "messages" WHERE "messages"."game_id" = 39
+Completed 200 OK in 501ms (Views: 0.3ms | ActiveRecord: 9.7ms)
+
+
+Started POST "/move" for 127.0.0.1 at 2013-12-30 17:03:34 -0500
+Processing by GameController#move as */*
+  Parameters: {"sx"=>"6", "sy"=>"3", "ex"=>"4", "ey"=>"3"}
+  [1m[36mPlayer Load (0.2ms)[0m  [1mSELECT "players".* FROM "players" WHERE "players"."session_token" = 'TN15XSCymg-MBJXW8bjLbg' LIMIT 1[0m
+  [1m[35mGame Load (0.1ms)[0m  SELECT "games".* FROM "games" WHERE "games"."id" = 39 LIMIT 1
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.3ms)[0m  UPDATE "games" SET "turn" = 'white', "updated_at" = '2013-12-30 22:03:34.337010', "moves" = '---
+- - - ''6''
+ - ''3''
+ - - ''4''
+ - ''3''
+' WHERE "games"."id" = 39
+  [1m[36m (4.8ms)[0m  [1mcommit transaction[0m
+  [1m[35mMessage Load (0.2ms)[0m  SELECT "messages".* FROM "messages" WHERE "messages"."game_id" = 39
+Completed 200 OK in 109ms (ActiveRecord: 5.7ms)
+
+
+Started POST "/move" for 127.0.0.1 at 2013-12-30 17:03:37 -0500
+Processing by GameController#move as */*
+  Parameters: {"sx"=>"1", "sy"=>"2", "ex"=>"3", "ey"=>"2"}
+  [1m[36mPlayer Load (0.2ms)[0m  [1mSELECT "players".* FROM "players" WHERE "players"."session_token" = 'CrW8SApC3_cyKHzgKDw3Zw' LIMIT 1[0m
+  [1m[35mGame Load (0.1ms)[0m  SELECT "games".* FROM "games" WHERE "games"."id" = 39 LIMIT 1
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.3ms)[0m  UPDATE "games" SET "turn" = 'white', "updated_at" = '2013-12-30 22:03:37.193233', "moves" = '---
+- - - ''6''
+ - ''3''
+ - - ''4''
+ - ''3''
+- - - ''1''
+ - ''2''
+ - - ''3''
+ - ''2''
+' WHERE "games"."id" = 39
+  [1m[36m (4.7ms)[0m  [1mcommit transaction[0m
+  [1m[35mMessage Load (0.1ms)[0m  SELECT "messages".* FROM "messages" WHERE "messages"."game_id" = 39
+Completed 200 OK in 79ms (ActiveRecord: 5.4ms)
+
+
+Started GET "/find" for 127.0.0.1 at 2013-12-30 17:03:39 -0500
+Processing by GameController#find as */*
+  [1m[36mPlayer Load (0.3ms)[0m  [1mSELECT "players".* FROM "players" WHERE "players"."session_token" = 'TN15XSCymg-MBJXW8bjLbg' LIMIT 1[0m
+  [1m[35mGame Load (0.3ms)[0m  SELECT "games".* FROM "games" WHERE "games"."id" = 39 LIMIT 1
+  [1m[36mMessage Load (0.2ms)[0m  [1mSELECT "messages".* FROM "messages" WHERE "messages"."game_id" = 39[0m
+Completed 200 OK in 86ms (Views: 0.2ms | ActiveRecord: 0.8ms)
+
+
+Started GET "/find" for 127.0.0.1 at 2013-12-30 17:05:21 -0500
+Processing by GameController#find as */*
+  [1m[35mPlayer Load (0.2ms)[0m  SELECT "players".* FROM "players" WHERE "players"."session_token" = 'TN15XSCymg-MBJXW8bjLbg' LIMIT 1
+  [1m[36mGame Load (0.1ms)[0m  [1mSELECT "games".* FROM "games" WHERE "games"."id" = 39 LIMIT 1[0m
+  [1m[35mMessage Load (0.1ms)[0m  SELECT "messages".* FROM "messages" WHERE "messages"."game_id" = 39
+Completed 200 OK in 482ms (Views: 0.2ms | ActiveRecord: 1.4ms)
+
+
+Started GET "/find" for 127.0.0.1 at 2013-12-30 17:05:25 -0500
+Processing by GameController#find as */*
+  [1m[36mPlayer Load (0.3ms)[0m  [1mSELECT "players".* FROM "players" WHERE "players"."session_token" = 'CrW8SApC3_cyKHzgKDw3Zw' LIMIT 1[0m
+  [1m[35mGame Load (0.2ms)[0m  SELECT "games".* FROM "games" WHERE "games"."id" = 39 LIMIT 1
+  [1m[36mMessage Load (0.2ms)[0m  [1mSELECT "messages".* FROM "messages" WHERE "messages"."game_id" = 39[0m
+Completed 200 OK in 88ms (Views: 0.2ms | ActiveRecord: 0.7ms)
+
+
+Started GET "/find" for 127.0.0.1 at 2013-12-30 17:05:27 -0500
+Processing by GameController#find as */*
+  [1m[35mPlayer Load (0.2ms)[0m  SELECT "players".* FROM "players" WHERE "players"."session_token" = 'CrW8SApC3_cyKHzgKDw3Zw' LIMIT 1
+  [1m[36mGame Load (0.2ms)[0m  [1mSELECT "games".* FROM "games" WHERE "games"."id" = 39 LIMIT 1[0m
+  [1m[35mMessage Load (0.1ms)[0m  SELECT "messages".* FROM "messages" WHERE "messages"."game_id" = 39
+Completed 200 OK in 92ms (Views: 0.3ms | ActiveRecord: 0.6ms)
+
+
+Started GET "/find" for 127.0.0.1 at 2013-12-30 17:05:31 -0500
+Processing by GameController#find as */*
+  [1m[36mPlayer Load (0.3ms)[0m  [1mSELECT "players".* FROM "players" WHERE "players"."session_token" = 'TN15XSCymg-MBJXW8bjLbg' LIMIT 1[0m
+  [1m[35mGame Load (0.5ms)[0m  SELECT "games".* FROM "games" WHERE "games"."id" = 39 LIMIT 1
+  [1m[36mMessage Load (0.2ms)[0m  [1mSELECT "messages".* FROM "messages" WHERE "messages"."game_id" = 39[0m
+Completed 200 OK in 104ms (Views: 0.3ms | ActiveRecord: 1.1ms)
+
+
+Started POST "/move" for 127.0.0.1 at 2013-12-30 17:05:33 -0500
+Processing by GameController#move as */*
+  Parameters: {"sx"=>"6", "sy"=>"4", "ex"=>"4", "ey"=>"4"}
+  [1m[35mPlayer Load (0.2ms)[0m  SELECT "players".* FROM "players" WHERE "players"."session_token" = 'TN15XSCymg-MBJXW8bjLbg' LIMIT 1
+  [1m[36mGame Load (0.2ms)[0m  [1mSELECT "games".* FROM "games" WHERE "games"."id" = 39 LIMIT 1[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.3ms)[0m  [1mUPDATE "games" SET "turn" = 'white', "updated_at" = '2013-12-30 22:05:33.654790', "moves" = '---
+- - - ''6''
+ - ''3''
+ - - ''4''
+ - ''3''
+- - - ''1''
+ - ''2''
+ - - ''3''
+ - ''2''
+- - - ''6''
+ - ''4''
+ - - ''4''
+ - ''4''
+' WHERE "games"."id" = 39[0m
+  [1m[35m (1.4ms)[0m  commit transaction
+  [1m[36mMessage Load (0.1ms)[0m  [1mSELECT "messages".* FROM "messages" WHERE "messages"."game_id" = 39[0m
+Completed 200 OK in 80ms (ActiveRecord: 2.3ms)
+
+
+Started GET "/find" for 127.0.0.1 at 2013-12-30 17:05:59 -0500
+Processing by GameController#find as */*
+  [1m[35mPlayer Load (0.3ms)[0m  SELECT "players".* FROM "players" WHERE "players"."session_token" = 'TN15XSCymg-MBJXW8bjLbg' LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.6ms)[0m  INSERT INTO "players" ("color", "created_at", "game_id", "last_request", "session_token", "updated_at") VALUES (?, ?, ?, ?, ?, ?)  [["color", nil], ["created_at", Mon, 30 Dec 2013 22:05:59 UTC +00:00], ["game_id", nil], ["last_request", 2013-12-30 17:05:59 -0500], ["session_token", "CDfB0FaNnC8LoxuN8HvznQ"], ["updated_at", Mon, 30 Dec 2013 22:05:59 UTC +00:00]]
+  [1m[36m (1.5ms)[0m  [1mcommit transaction[0m
+  [1m[35mGame Load (0.2ms)[0m  SELECT "games".* FROM "games" WHERE (white_id IS NULL) ORDER BY "games"."id" DESC LIMIT 1
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mSQL (0.8ms)[0m  INSERT INTO "games" ("black_id", "board", "created_at", "moves", "turn", "updated_at", "white_id") VALUES (?, ?, ?, ?, ?, ?, ?)  [["black_id", 70], ["board", nil], ["created_at", Mon, 30 Dec 2013 22:05:59 UTC +00:00], ["moves", "--- []\n"], ["turn", :white], ["updated_at", Mon, 30 Dec 2013 22:05:59 UTC +00:00], ["white_id", nil]]
+  [1m[36m (1.0ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36m (0.3ms)[0m  [1mUPDATE "players" SET "game_id" = 40, "color" = 'black', "updated_at" = '2013-12-30 22:05:59.558320' WHERE "players"."id" = 70[0m
+  [1m[35m (0.8ms)[0m  commit transaction
+Completed 200 OK in 18ms (Views: 0.3ms | ActiveRecord: 5.8ms)
+
+
+Started GET "/find" for 127.0.0.1 at 2013-12-30 17:06:02 -0500
+Processing by GameController#find as */*
+  [1m[36mPlayer Load (0.3ms)[0m  [1mSELECT "players".* FROM "players" WHERE "players"."session_token" = 'CDfB0FaNnC8LoxuN8HvznQ' LIMIT 1[0m
+  [1m[35mGame Load (0.3ms)[0m  SELECT "games".* FROM "games" WHERE "games"."id" = 40 LIMIT 1
+  [1m[36mMessage Load (0.2ms)[0m  [1mSELECT "messages".* FROM "messages" WHERE "messages"."game_id" = 40[0m
+Completed 200 OK in 236ms (Views: 0.2ms | ActiveRecord: 0.7ms)
+
+
+Started GET "/find" for 127.0.0.1 at 2013-12-30 17:06:03 -0500
+Processing by GameController#find as */*
+  [1m[35mPlayer Load (0.3ms)[0m  SELECT "players".* FROM "players" WHERE "players"."session_token" = 'CDfB0FaNnC8LoxuN8HvznQ' LIMIT 1
+  [1m[36mGame Load (0.2ms)[0m  [1mSELECT "games".* FROM "games" WHERE "games"."id" = 40 LIMIT 1[0m
+  [1m[35mMessage Load (0.2ms)[0m  SELECT "messages".* FROM "messages" WHERE "messages"."game_id" = 40
+Completed 200 OK in 91ms (Views: 0.3ms | ActiveRecord: 0.6ms)
+
+
+Started GET "/find" for 127.0.0.1 at 2013-12-30 17:06:05 -0500
+Processing by GameController#find as */*
+  [1m[36mPlayer Load (0.2ms)[0m  [1mSELECT "players".* FROM "players" WHERE "players"."session_token" = 'CrW8SApC3_cyKHzgKDw3Zw' LIMIT 1[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.7ms)[0m  [1mINSERT INTO "players" ("color", "created_at", "game_id", "last_request", "session_token", "updated_at") VALUES (?, ?, ?, ?, ?, ?)[0m  [["color", nil], ["created_at", Mon, 30 Dec 2013 22:06:05 UTC +00:00], ["game_id", nil], ["last_request", 2013-12-30 17:06:05 -0500], ["session_token", "puCLAIyEaUn-4wxgKjzTYA"], ["updated_at", Mon, 30 Dec 2013 22:06:05 UTC +00:00]]
+  [1m[35m (4.9ms)[0m  commit transaction
+  [1m[36mGame Load (0.4ms)[0m  [1mSELECT "games".* FROM "games" WHERE (white_id IS NULL) ORDER BY "games"."id" DESC LIMIT 1[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36m (0.4ms)[0m  [1mUPDATE "players" SET "game_id" = 40, "color" = 'white', "updated_at" = '2013-12-30 22:06:05.601158' WHERE "players"."id" = 71[0m
+  [1m[35m (0.9ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.3ms)[0m  UPDATE "games" SET "white_id" = 71, "updated_at" = '2013-12-30 22:06:05.605163', "moves" = '--- []
+' WHERE "games"."id" = 40
+  [1m[36m (0.9ms)[0m  [1mcommit transaction[0m
+  [1m[35mMessage Load (0.3ms)[0m  SELECT "messages".* FROM "messages" WHERE "messages"."game_id" = 40
+Completed 200 OK in 112ms (Views: 0.4ms | ActiveRecord: 9.5ms)
+
+
+Started GET "/find" for 127.0.0.1 at 2013-12-30 17:06:39 -0500
+Processing by GameController#find as */*
+  [1m[36mPlayer Load (0.3ms)[0m  [1mSELECT "players".* FROM "players" WHERE "players"."session_token" = 'CDfB0FaNnC8LoxuN8HvznQ' LIMIT 1[0m
+  [1m[35mGame Load (0.3ms)[0m  SELECT "games".* FROM "games" WHERE "games"."id" = 40 LIMIT 1
+  [1m[36mMessage Load (0.2ms)[0m  [1mSELECT "messages".* FROM "messages" WHERE "messages"."game_id" = 40[0m
+Completed 200 OK in 462ms (Views: 0.2ms | ActiveRecord: 0.7ms)
+
+
+Started GET "/find" for 127.0.0.1 at 2013-12-30 17:07:01 -0500
+Processing by GameController#find as */*
+  [1m[35mPlayer Load (0.3ms)[0m  SELECT "players".* FROM "players" WHERE "players"."session_token" = 'CDfB0FaNnC8LoxuN8HvznQ' LIMIT 1
+  [1m[36mGame Load (0.2ms)[0m  [1mSELECT "games".* FROM "games" WHERE "games"."id" = 40 LIMIT 1[0m
+  [1m[35mMessage Load (0.1ms)[0m  SELECT "messages".* FROM "messages" WHERE "messages"."game_id" = 40
+Completed 200 OK in 99ms (Views: 0.2ms | ActiveRecord: 0.6ms)
+
+
+Started POST "/move" for 127.0.0.1 at 2013-12-30 17:07:05 -0500
+Processing by GameController#move as */*
+  Parameters: {"sx"=>"6", "sy"=>"1", "ex"=>"4", "ey"=>"1"}
+  [1m[36mPlayer Load (0.2ms)[0m  [1mSELECT "players".* FROM "players" WHERE "players"."session_token" = 'puCLAIyEaUn-4wxgKjzTYA' LIMIT 1[0m
+  [1m[35mGame Load (0.1ms)[0m  SELECT "games".* FROM "games" WHERE "games"."id" = 40 LIMIT 1
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.3ms)[0m  UPDATE "games" SET "turn" = 'white', "updated_at" = '2013-12-30 22:07:05.426302', "moves" = '---
+- - - ''6''
+ - ''1''
+ - - ''4''
+ - ''1''
+' WHERE "games"."id" = 40
+  [1m[36m (5.0ms)[0m  [1mcommit transaction[0m
+  [1m[35mMessage Load (0.2ms)[0m  SELECT "messages".* FROM "messages" WHERE "messages"."game_id" = 40
+Completed 200 OK in 81ms (ActiveRecord: 5.8ms)
+
+
+Started POST "/move" for 127.0.0.1 at 2013-12-30 17:07:12 -0500
+Processing by GameController#move as */*
+  Parameters: {"sx"=>"1", "sy"=>"2", "ex"=>"2", "ey"=>"2"}
+  [1m[36mPlayer Load (0.2ms)[0m  [1mSELECT "players".* FROM "players" WHERE "players"."session_token" = 'CDfB0FaNnC8LoxuN8HvznQ' LIMIT 1[0m
+  [1m[35mGame Load (0.1ms)[0m  SELECT "games".* FROM "games" WHERE "games"."id" = 40 LIMIT 1
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.3ms)[0m  UPDATE "games" SET "turn" = 'white', "updated_at" = '2013-12-30 22:07:12.920508', "moves" = '---
+- - - ''6''
+ - ''1''
+ - - ''4''
+ - ''1''
+- - - ''1''
+ - ''2''
+ - - ''2''
+ - ''2''
+' WHERE "games"."id" = 40
+  [1m[36m (4.9ms)[0m  [1mcommit transaction[0m
+  [1m[35mMessage Load (0.1ms)[0m  SELECT "messages".* FROM "messages" WHERE "messages"."game_id" = 40
+Completed 200 OK in 80ms (ActiveRecord: 5.6ms)
+
+
+Started POST "/move" for 127.0.0.1 at 2013-12-30 17:07:26 -0500
+Processing by GameController#move as */*
+  Parameters: {"sx"=>"6", "sy"=>"2", "ex"=>"5", "ey"=>"2"}
+  [1m[36mPlayer Load (0.2ms)[0m  [1mSELECT "players".* FROM "players" WHERE "players"."session_token" = 'puCLAIyEaUn-4wxgKjzTYA' LIMIT 1[0m
+  [1m[35mGame Load (0.1ms)[0m  SELECT "games".* FROM "games" WHERE "games"."id" = 40 LIMIT 1
+  [1m[36m (0.0ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.3ms)[0m  UPDATE "games" SET "turn" = 'white', "updated_at" = '2013-12-30 22:07:26.557812', "moves" = '---
+- - - ''6''
+ - ''1''
+ - - ''4''
+ - ''1''
+- - - ''1''
+ - ''2''
+ - - ''2''
+ - ''2''
+- - - ''6''
+ - ''2''
+ - - ''5''
+ - ''2''
+' WHERE "games"."id" = 40
+  [1m[36m (5.0ms)[0m  [1mcommit transaction[0m
+  [1m[35mMessage Load (0.1ms)[0m  SELECT "messages".* FROM "messages" WHERE "messages"."game_id" = 40
+Completed 200 OK in 97ms (ActiveRecord: 5.8ms)
+
+
+Started GET "/find" for 127.0.0.1 at 2013-12-30 17:07:33 -0500
+Processing by GameController#find as */*
+  [1m[36mPlayer Load (0.2ms)[0m  [1mSELECT "players".* FROM "players" WHERE "players"."session_token" = 'CDfB0FaNnC8LoxuN8HvznQ' LIMIT 1[0m
+  [1m[35mGame Load (0.2ms)[0m  SELECT "games".* FROM "games" WHERE "games"."id" = 40 LIMIT 1
+  [1m[36mMessage Load (0.2ms)[0m  [1mSELECT "messages".* FROM "messages" WHERE "messages"."game_id" = 40[0m
+Completed 200 OK in 91ms (Views: 0.3ms | ActiveRecord: 0.6ms)
+
+
+Started POST "/move" for 127.0.0.1 at 2013-12-30 17:07:36 -0500
+Processing by GameController#move as */*
+  Parameters: {"sx"=>"1", "sy"=>"4", "ex"=>"2", "ey"=>"4"}
+  [1m[35mPlayer Load (0.2ms)[0m  SELECT "players".* FROM "players" WHERE "players"."session_token" = 'CDfB0FaNnC8LoxuN8HvznQ' LIMIT 1
+  [1m[36mGame Load (0.1ms)[0m  [1mSELECT "games".* FROM "games" WHERE "games"."id" = 40 LIMIT 1[0m
+  [1m[35m (0.0ms)[0m  begin transaction
+  [1m[36m (0.3ms)[0m  [1mUPDATE "games" SET "turn" = 'white', "updated_at" = '2013-12-30 22:07:36.238526', "moves" = '---
+- - - ''6''
+ - ''1''
+ - - ''4''
+ - ''1''
+- - - ''1''
+ - ''2''
+ - - ''2''
+ - ''2''
+- - - ''6''
+ - ''2''
+ - - ''5''
+ - ''2''
+- - - ''1''
+ - ''4''
+ - - ''2''
+ - ''4''
+' WHERE "games"."id" = 40[0m
+  [1m[35m (5.0ms)[0m  commit transaction
+  [1m[36mMessage Load (0.2ms)[0m  [1mSELECT "messages".* FROM "messages" WHERE "messages"."game_id" = 40[0m
+Completed 200 OK in 77ms (ActiveRecord: 5.8ms)
+
+
+Started GET "/find" for 127.0.0.1 at 2013-12-30 17:11:16 -0500
+Processing by GameController#find as */*
+  [1m[35mPlayer Load (0.3ms)[0m  SELECT "players".* FROM "players" WHERE "players"."session_token" = 'CDfB0FaNnC8LoxuN8HvznQ' LIMIT 1
+  [1m[36mGame Load (0.3ms)[0m  [1mSELECT "games".* FROM "games" WHERE "games"."id" = 40 LIMIT 1[0m
+  [1m[35mMessage Load (0.2ms)[0m  SELECT "messages".* FROM "messages" WHERE "messages"."game_id" = 40
+Completed 200 OK in 446ms (Views: 0.2ms | ActiveRecord: 0.8ms)
+
+
+Started GET "/find" for 127.0.0.1 at 2013-12-30 17:11:20 -0500
+Processing by GameController#find as */*
+  [1m[36mPlayer Load (0.2ms)[0m  [1mSELECT "players".* FROM "players" WHERE "players"."session_token" = 'CDfB0FaNnC8LoxuN8HvznQ' LIMIT 1[0m
+  [1m[35mGame Load (0.3ms)[0m  SELECT "games".* FROM "games" WHERE "games"."id" = 40 LIMIT 1
+  [1m[36mMessage Load (0.2ms)[0m  [1mSELECT "messages".* FROM "messages" WHERE "messages"."game_id" = 40[0m
+Completed 200 OK in 90ms (Views: 0.2ms | ActiveRecord: 0.8ms)
+
+
+Started GET "/find" for 127.0.0.1 at 2013-12-30 17:11:28 -0500
+Processing by GameController#find as */*
+  [1m[35mPlayer Load (0.3ms)[0m  SELECT "players".* FROM "players" WHERE "players"."session_token" = 'CDfB0FaNnC8LoxuN8HvznQ' LIMIT 1
+  [1m[36mGame Load (0.3ms)[0m  [1mSELECT "games".* FROM "games" WHERE "games"."id" = 40 LIMIT 1[0m
+  [1m[35mMessage Load (0.2ms)[0m  SELECT "messages".* FROM "messages" WHERE "messages"."game_id" = 40
+Completed 200 OK in 94ms (Views: 0.3ms | ActiveRecord: 0.8ms)
+
+
+Started GET "/find" for 127.0.0.1 at 2013-12-30 17:11:31 -0500
+Processing by GameController#find as */*
+  [1m[36mPlayer Load (0.3ms)[0m  [1mSELECT "players".* FROM "players" WHERE "players"."session_token" = 'puCLAIyEaUn-4wxgKjzTYA' LIMIT 1[0m
+  [1m[35mGame Load (0.2ms)[0m  SELECT "games".* FROM "games" WHERE "games"."id" = 40 LIMIT 1
+  [1m[36mMessage Load (0.2ms)[0m  [1mSELECT "messages".* FROM "messages" WHERE "messages"."game_id" = 40[0m
+Completed 200 OK in 91ms (Views: 0.2ms | ActiveRecord: 0.7ms)
+
+
+Started GET "/find" for 127.0.0.1 at 2013-12-30 17:11:34 -0500
+Processing by GameController#find as */*
+  [1m[35mPlayer Load (0.2ms)[0m  SELECT "players".* FROM "players" WHERE "players"."session_token" = 'puCLAIyEaUn-4wxgKjzTYA' LIMIT 1
+  [1m[36mGame Load (0.2ms)[0m  [1mSELECT "games".* FROM "games" WHERE "games"."id" = 40 LIMIT 1[0m
+  [1m[35mMessage Load (0.2ms)[0m  SELECT "messages".* FROM "messages" WHERE "messages"."game_id" = 40
+Completed 200 OK in 102ms (Views: 0.2ms | ActiveRecord: 0.6ms)

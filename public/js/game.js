@@ -50,30 +50,33 @@ var Game = Class.extend({
     var self = this;
     this.remote_player.color = this.player.color == "white" ? "black" : "white";
     this.turn = 'white';
-    $('#error_label').text('Game started, your color is '+ this.player.color);
+    $('#error_label').text('Game started!');
     this.play();
     this.game_started = true;
-    var channel = pusher.subscribe('game_' + data.game.id);
-    channel.bind('move', function(data) {
-      self.change_state(data);
-    });
+
   },
   get_game_status: function(name){
     var that = name;
     var that = this;
-    var lobby = pusher.subscribe('lobby');
-    lobby.bind( 'game', function( data ){
-      if ( data.status == 'Waiting'){
-        $('#turn_label').html("You are white, waiting for black to join.");
-        that.player.color = 'white';
 
-      } else {
-        that.player.color = that.player.color == 'white' ? 'white' : 'black';
-        lobby.unbind('game');
-        that.start_game(data);
+    var lobby = pusher.subscribe('lobby');
+    var gameCallback = function( data ){
+      lobby.unbind('game', gameCallback);
+      var channel = pusher.subscribe('game_' + data.game.id);
+      channel.bind('move', function(data) {
+        that.change_state(data);
+      });
+      that.start_game(data);
+      that.apply_moves(data.game.moves);
+    };
+    lobby.bind( 'game', gameCallback);
+    $.get("/find", function(data){
+      that.player.color = data.your_color;
+      $('#color_label').html('You are '+ that.player.color);
+      if( data.status == "Waiting"){
+        $('#turn_label').html("You are black, waiting for white to join.");
       }
     });
-    $.get("/find");
   },
   play: function() {
     $('#turn_label').html(g.turn + "'s turn!");
@@ -176,6 +179,11 @@ var RemotePlayer = Class.extend({
       this.game.move(this);
     }
   }
+});
+$('#quit').on('click', function(){
+  $.post('/quit',function(){
+    $('#error_label').text('You have left the game');
+  });
 });
 var g = new Game();
 g.get_game_status(g);

@@ -7,39 +7,41 @@ class GameController < ApplicationController
     end
 
     unless player.game_id
-      game = Game.where('black_id IS NULL').last
+      game = Game.where('white_id IS NULL').last
       if game
         player.game = game
-        game.black_id = player.id
+        game.white_id = player.id
+        player.color = 'white'
         player.save
         game.save
+        Pusher.trigger("game_#{player.game.id}", "start",{})
         Pusher.trigger("lobby", "game", {
-          status: "Start",
-          game: player.game
+          game: player.game,
+          chat: player.game.messages
         })
+        render json: { your_color: player.color}
       else
-        player.game = Game.create(black_id: nil, white_id: player.id, turn: :white, moves: [])
+        player.game = Game.create(black_id: player.id, white_id: nil, turn: :white, moves: [])
+        player.color = 'black'
         player.save
-
-        Pusher.trigger("lobby", "game",{ status: "Waiting" })
+        render json: { your_color: player.color, status: "Waiting"}
       end
-      head :ok
     else
 
+      Pusher.trigger("game_#{player.game.id}", "start",{})
       Pusher.trigger("lobby", "game", {
-        status: "Start",
-        game: player.game
-      })
-      sleep 1
-      Pusher.trigger("game_#{player.game.id}", "move", {
-        status: "Moved",
         game: player.game,
-        your_player_id: player.id,
-        your_color: player.color,
         chat: player.game.messages
       })
-      head :ok
+      render json: { your_color: player.color}
+      
     end
+  end
+
+  def quit
+    player = Player.find_by_session_token(session[:token])
+    player.destroy if player
+    head :ok
   end
 
   def move
