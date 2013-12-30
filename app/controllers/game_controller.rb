@@ -25,9 +25,18 @@ class GameController < ApplicationController
       end
       head :ok
     else
+
       Pusher.trigger("lobby", "game", {
         status: "Start",
         game: player.game
+      })
+      sleep 1
+      Pusher.trigger("game_#{player.game.id}", "move", {
+        status: "Moved",
+        game: player.game,
+        your_player_id: player.id,
+        your_color: player.color,
+        chat: player.game.messages
       })
       head :ok
     end

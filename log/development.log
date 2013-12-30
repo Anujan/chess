@@ -26706,3 +26706,4 @@ Processing by GameController#move as */*
   [1m[36m (4.9ms)[0m  [1mcommit transaction[0m
   [1m[35mMessage Load (0.1ms)[0m  SELECT "messages".* FROM "messages" WHERE "messages"."game_id" = 17
 Completed 200 OK in 80ms (ActiveRecord: 5.6ms)
+Connecting to database specified by database.yml
