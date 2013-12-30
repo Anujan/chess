@@ -35,8 +35,7 @@ var Game = Class.extend({
     }
   },
   change_state: function(data) {
-
-
+    var self = this;
     if (data.status != 'Waiting'){
       if ( data.chat ){
         var chat;
@@ -55,6 +54,10 @@ var Game = Class.extend({
         this.turn = 'white';
         this.play();
         this.game_started = true;
+        var channel = pusher.subscribe('game_' + data.game.id);
+        channel.bind('move', function(data) {
+          self.change_state(data);
+        });
       } else {
         this.apply_moves(data.game.moves);
       }
@@ -63,11 +66,11 @@ var Game = Class.extend({
     }
   },
   get_game_status: function(name){
-    var that = eval(name);
+    var that = name;
     $.get("/find", function( data ) {
      that.change_state(data);
     });
-    if (!that.game_over){
+    if (!that.game_started){
       setTimeout(function(){that.get_game_status(name);},750);
     }
   },
@@ -174,4 +177,4 @@ var RemotePlayer = Class.extend({
   }
 });
 var g = new Game();
-g.get_game_status("g");
+g.get_game_status(g);

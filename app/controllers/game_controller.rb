@@ -72,13 +72,14 @@ class GameController < ApplicationController
       player.game.moves.push(move)
       player.game.switch_turn!
       player.game.save!
-      render json: {
+      Pusher.trigger("game_#{player.game.id}", "move", {
         status: "Moved",
         game: player.game,
         your_player_id: player.id,
         your_color: player.color,
-        chat: game.messages
-      }
+        chat: player.game.messages
+      });
+      head :ok
     end
   end
 
