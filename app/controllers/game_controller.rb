@@ -4,8 +4,13 @@ class GameController < ApplicationController
     if session[:token].nil?
       player = Player.create
       session[:token] = player.session_token
-    else
+    end
+    unless player
       player = Player.find_by_session_token(session[:token])
+    end
+    unless player
+      player = Player.create
+      session[:token] = player.session_token
     end
     unless player.game_id
 
@@ -26,8 +31,9 @@ class GameController < ApplicationController
         Pusher.trigger("lobby", "game",{ status: "Waiting" })
       end
       head :ok
+    else
+      head :bad_request
     end
-    head :bad_request
   end
 
   def move

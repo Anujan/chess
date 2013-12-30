@@ -12,8 +12,6 @@ var Game = Class.extend({
     this.game_moves = [];
     this.started = false;
 
-    //this.get_game_status(options.game_name);
-
     this.turn = null;
 
     this.timer = null;
@@ -49,10 +47,10 @@ var Game = Class.extend({
     this.apply_moves(data.game.moves);
   },
   start_game: function(data){
-    //$('#error_label').text('welcome to chess. your color is ' + this.player.color);
+    var self = this;
     this.remote_player.color = this.player.color == "white" ? "black" : "white";
     this.turn = 'white';
-    alert('game started');
+    $('#error_label').text('Game started, your color is '+ this.player.color);
     this.play();
     this.game_started = true;
     var channel = pusher.subscribe('game_' + data.game.id);
@@ -68,9 +66,10 @@ var Game = Class.extend({
       if ( data.status == 'Waiting'){
         $('#turn_label').html("You are white, waiting for black to join.");
         that.player.color = 'white';
+
       } else {
         that.player.color = that.player.color == 'white' ? 'white' : 'black';
-        pusher.unsubscibe('lobby');
+        lobby.unbind('game');
         that.start_game(data);
       }
     });
