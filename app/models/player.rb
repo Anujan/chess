@@ -12,5 +12,6 @@ class Player < ActiveRecord::Base
 
   def ensure_token
     self.session_token ||= SecureRandom.urlsafe_base64
+    self.last_request = Time.now
   end
 end

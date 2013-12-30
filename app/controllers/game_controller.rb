@@ -7,42 +7,27 @@ class GameController < ApplicationController
     else
       player = Player.find_by_session_token(session[:token])
     end
-    unless player.nil?
-      player.last_request = Time.now
-      player.save
-      if player.game_id.nil?
-        time_before_expires = 30.seconds.ago
-        players = Player.where("last_request > ? AND game_id IS NULL", time_before_expires)
-        if players.count >= 2
-          game = Game.create(black_id: players.first.id, white_id: players.second.id, turn: :white, moves: [])
+    unless player.game_id
 
-          game.black.update_attributes(game_id: game.id, color: :black)
-          game.white.update_attributes(game_id: game.id, color: :white)
-          render json: {
-            status: "Start",
-            game: game,
-            your_color: player.color,
-            chat: game.messages
-          }
-        else
-          render json: {
-            status: "Waiting"
-          }
-        end
+      game = Game.where('black_id IS NULL').last
+      if game
+        player.game = game
+        game.black_id = player.id
+        player.save
+        game.save
+        Pusher.trigger("lobby", "game", {
+          status: "Start",
+          game: player.game
+        })
       else
-        render json: {
-          status: "Info",
-          game: player.game,
-          your_color: player.color,
-          chat: player.game.messages
-        }
+        player.game = Game.create(black_id: nil, white_id: player.id, turn: :white, moves: [])
+        player.save
+
+        Pusher.trigger("lobby", "game",{ status: "Waiting" })
       end
-    else
-      session[:token] = nil
-      render json: {
-        status: "Waiting"
-      }
+      head :ok
     end
+    head :bad_request
   end
 
   def move
@@ -78,7 +63,7 @@ class GameController < ApplicationController
         your_player_id: player.id,
         your_color: player.color,
         chat: player.game.messages
-      });
+      })
       head :ok
     end
   end
