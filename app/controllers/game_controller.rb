@@ -25,7 +25,11 @@ class GameController < ApplicationController
       end
       head :ok
     else
-      head :bad_request
+      Pusher.trigger("lobby", "game", {
+        status: "Start",
+        game: player.game
+      })
+      head :ok
     end
   end
 
